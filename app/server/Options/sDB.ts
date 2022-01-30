@@ -6,10 +6,10 @@ class Database {
 
 	constructor() {
 		this.connection =  mysql.createPool({
-			host			:	"localhost",
-			user			: 	"root",
-			password		: 	"",
-			database		:	"v8server",
+			host: process.env.MYSQL_HOST,
+			user: process.env.MYSQL_USER,
+			password: process.env.MYSQL_PASSWORD,
+			database: process.env.MYSQL_DATABASE
 		});
 
 		this.checkConnection();
@@ -55,5 +55,3 @@ class Database {
 }
 const a = new Database();
 export default a;
-
-
