@@ -1,8 +1,6 @@
 import * as mysql from 'mysql';
 import Logger from './sLogger';
 
-
-
 class Database {
 	connection: any;
 
@@ -18,10 +16,16 @@ class Database {
 	}
 
 	checkConnection() {
-		this.connection.getConnection((e: any) => {
-			if (e) 	{
+		this.connection.getConnection((err: any) => {
+			if (err) {
 				Logger.error(`MYSQL SERVER NOT WORKING!`);
-				throw e;
+				Logger.error(`err.code: ${err.code}`);
+				Logger.error(`err.errno: ${err.errno}`);
+				Logger.error(`err.fatal: ${err.fatal}`);
+				Logger.error(`err.sql: ${err.sql}`);
+				Logger.error(`err.sqlState: ${err.sqlState}`);
+				Logger.error(`err.sqlMessage: ${err.sqlMessage}`);
+				throw err;
 			}
 			else {
 				Logger.info(`MYSQL SERVER READY!`);
