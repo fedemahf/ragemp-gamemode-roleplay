@@ -5,7 +5,7 @@ class Logger {
 	consoleLogger: any;
 	fileLogger: any;
 
-	level: string;
+	level: winston.level;
 
 	constructor() {
 		this.level = 'debug';
