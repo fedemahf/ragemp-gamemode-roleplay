@@ -16,3 +16,4 @@ bt.dat
 /encryption_keys/*
 /source_dlcpacks
 /dist
+.env
