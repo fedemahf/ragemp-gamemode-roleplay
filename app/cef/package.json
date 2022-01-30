@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "watch": "vue-cli-service build --dest ../../client_packages/cef --watch",
-    "build": "vue-cli-service build --dest ../../client_packages/cef"
+    "watch": "vue-cli-service build --dest ../../dist/client_packages/cef --watch",
+    "build": "vue-cli-service build --dest ../../dist/client_packages/cef"
   },
   "dependencies": {
     "node-sass": "^4.13.1",

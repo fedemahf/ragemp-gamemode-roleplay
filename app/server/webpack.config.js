@@ -1,7 +1,6 @@
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
-
 module.exports = {
     resolve: { 
         extensions: [ '.tsx', '.ts',]
@@ -11,7 +10,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname),
-        filename: '../../packages/RP/index.js'
+        filename: '../../dist/packages/RP/index.js'
     },
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({

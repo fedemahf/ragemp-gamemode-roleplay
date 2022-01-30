@@ -15,3 +15,4 @@ bt.dat
 /app/client/node_modules/*
 /encryption_keys/*
 /source_dlcpacks
+/dist

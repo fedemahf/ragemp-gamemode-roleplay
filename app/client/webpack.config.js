@@ -11,7 +11,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname),
-        filename: '../../client_packages/index.js'
+        filename: '../../dist/client_packages/index.js'
     },
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({
