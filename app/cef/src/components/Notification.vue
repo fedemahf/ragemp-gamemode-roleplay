@@ -1,6 +1,6 @@
 <template>
 	<b :class="`link-button notification transition_02 theme_${theme}`">
-		<b v-if="img" :class="`notification__img notification__img_${theme}`":style="style"></b>
+		<b v-if="img" :class="`notification__img notification__img_${theme}`" :style="style"></b>
 		<b class="notification__text-container">
 			<b v-if="title" class="notification__title">{{ title }}</b>
 			<b v-html="text" class="notification__text"></b>
