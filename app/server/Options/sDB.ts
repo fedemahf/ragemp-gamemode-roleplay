@@ -5,17 +5,13 @@ class Database {
 	connection: any;
 
 	constructor() {
-		this.connection =  mysql.createPool({
+		this.connection = mysql.createPool({
 			host: process.env.MYSQL_HOST,
 			user: process.env.MYSQL_USER,
 			password: process.env.MYSQL_PASSWORD,
 			database: process.env.MYSQL_DATABASE
 		});
 
-		this.checkConnection();
-	}
-
-	checkConnection() {
 		this.connection.getConnection((err: any) => {
 			if (err) {
 				Logger.error(`MySQL server not working!`);
@@ -43,6 +39,10 @@ class Database {
 		}))
 	}
 
+	escape(value: any, stringifyObjects?: boolean, timeZone?: string): string {
+		return mysql.escape(value, stringifyObjects, timeZone);
+	}
+
 	async query(query: string) {
 		const start = new Date().getTime(); 
 		const data = await this.try(query);
@@ -51,7 +51,6 @@ class Database {
 		else Logger.silly(`'${query}' ends with: ${time / 1000}s`);
 		return data;
 	}
-
 }
 const a = new Database();
 export default a;

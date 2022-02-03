@@ -20,7 +20,7 @@ class PlayerSingletone {
     async createUser(player: PlayerMp, email: string, firstName: string, lastName: string, password: string) {
         const pos: string = JSON.stringify(this.startCoord);
         const socialClub: string = player.socialClub;
-        await DB.query(`INSERT INTO users (email, firstName, lastName, socialclub, position, password) VALUES ('${email}', '${firstName}', '${lastName}', '${socialClub}', '${pos}', '${password}')`);
+        await DB.query(`INSERT INTO users (email, firstName, lastName, socialclub, position, password) VALUES ('${DB.escape(email)}', '${DB.escape(firstName)}', '${DB.escape(lastName)}', '${DB.escape(socialClub)}', '${pos}', '${DB.escape(password)}')`);
         Logger.debug(`New Account: ${email} | ${firstName} ${lastName} | ${socialClub}`);
     }
 

@@ -42,7 +42,7 @@ class Login extends Auth {
     async login(player: PlayerMp, data: string) {
         const obj = JSON.parse(data);
         const pass = this.hashPassword(obj.password);
-        const d: any = await DB.query(`SELECT guid, email, password, socialclub FROM users WHERE email = '${obj.email}' LIMIT 1`);
+        const d: any = await DB.query(`SELECT guid, email, password, socialclub FROM users WHERE email = '${DB.escape(obj.email)}' LIMIT 1`);
         if (!d[0]) {
             Browser.showNotification(player, `This email doesn't exists!`, `red`, 4, `Wrong email address`, `error.svg`);
             Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong email! Email: ${obj.email}`);
@@ -53,9 +53,11 @@ class Login extends Auth {
 
     isAlreadyPlaying(email: string) {
         for (const player of mp.players.toArray()) {
-            if (!player.loggedIn) continue;
-            if (player.email === email) return true;
+            if (player.loggedIn && player.email === email) {
+                return true;
+            }
         }
+
         return false;
     }
 

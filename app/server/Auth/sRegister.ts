@@ -24,8 +24,11 @@ class Register extends Auth {
     }
 
     isEmailValid(email: string) {
-        const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-        return re.test(email);
+        return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(email);
+    }
+
+    isNameValid(name: string) {
+        return /^[A-Z][A-Za-z]+$/.test(name);
     }
 
     async checkEmail(player: PlayerMp, email: string) {
@@ -34,7 +37,7 @@ class Register extends Auth {
         }
         else
         {
-            const d: any = await DB.query(`SELECT email FROM users WHERE email = '${email}' LIMIT 1`);
+            const d: any = await DB.query(`SELECT email FROM users WHERE email = '${DB.escape(email)}' LIMIT 1`);
 
             if (d[0]) {
                 Browser.showNotification(player, `This email already exists!`, `red`, 4, `Wrong email address`, `error.svg`);
@@ -48,24 +51,48 @@ class Register extends Auth {
     }
 
     async checkName(player: PlayerMp, obj: string) {
+        let error: string;
         const data = JSON.parse(obj);
-        const d: any = await DB.query(`SELECT firstName, lastName FROM users WHERE firstName = '${data.firstName}' AND lastName = '${data.lastName}' LIMIT 1`);
-        if (d[0]) {
-            Browser.showNotification(player, `This name already exists!`, `red`, 4, `Error`, `error.svg`);
-            return;
+
+        if (!this.isNameValid(data.firstName) || !this.isNameValid(data.lastName)) {
+            error = "The name is not valid!";
+        } else {
+            const d: any = await DB.query(`SELECT firstName, lastName FROM users WHERE firstName = '${DB.escape(data.firstName)}' AND lastName = '${DB.escape(data.lastName)}' LIMIT 1`);
+
+            if (d[0]) {
+                error = "This name already exists!";
+            }
         }
-        this.setRegistrationNameAvailable(player, true);
-        Browser.showNotification(player, `You can use this name!`, `green`, 4, `Success`);
+
+        if (error.length > 0) {
+            Browser.showNotification(player, error, `red`, 4, `Error`, `error.svg`);
+        } else {
+            this.setRegistrationNameAvailable(player, true);
+            Browser.showNotification(player, `You can use this name!`, `green`, 4, `Success`);
+        }
     }
 
     async tryToCreateAccount(player: PlayerMp, obj: string) {
+        let error: string;
         const data = JSON.parse(obj);
-        const d: any = await DB.query(`SELECT email FROM users WHERE email = '${data.email}' LIMIT 1`);
-        if (d[0]) {
-            Browser.showNotification(player, `This email already exists!`, `red`, 4, `Wrong email address`, `error.svg`);
-            return;
+
+        if (!this.isNameValid(data.firstName) || !this.isNameValid(data.lastName)) {
+            error = "The name is not valid!";
+        } else if (!this.isEmailValid(data.email)) {
+            error = "The email is not valid!";
+        } else {
+            const result: any = await DB.query(`SELECT email FROM users WHERE email = '${DB.escape(data.email)}' OR (firstName = '${DB.escape(data.firstName)}' AND lastName = '${DB.escape(data.lastName)}') LIMIT 1`);
+
+            if (result[0]) {
+                error = "There was an error creating your account, please try again";
+            }
         }
-        this.createAccount(player, data.email, data.firstName, data.lastName, data.password);
+
+        if (error.length > 0) {
+            Browser.showNotification(player, error, `red`, 4, `Error`, `error.svg`);
+        } else {
+            this.createAccount(player, data.email, data.firstName, data.lastName, data.password);
+        }
     }
 
     async createAccount(player: PlayerMp, email: string, firstName: string, lastName: string, password: string) {
