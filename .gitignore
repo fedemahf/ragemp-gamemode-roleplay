@@ -1,4 +1,4 @@
-/node_modules/*
+node_modules
 /bridge/*
 .listcache
 server.exe
@@ -9,10 +9,7 @@ bt.dat
 /plugins/*
 /packages/*
 /client_packages/*
-/app/cef/node_modules/*
 /app/cef/dist/*
-/app/server/node_modules/*
-/app/client/node_modules/*
 /encryption_keys/*
 /source_dlcpacks
 /dist
