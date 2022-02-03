@@ -18,7 +18,7 @@ class Database {
 	checkConnection() {
 		this.connection.getConnection((err: any) => {
 			if (err) {
-				Logger.error(`MYSQL SERVER NOT WORKING!`);
+				Logger.error(`MySQL server not working!`);
 				Logger.error(`err.code: ${err.code}`);
 				Logger.error(`err.errno: ${err.errno}`);
 				Logger.error(`err.fatal: ${err.fatal}`);
@@ -28,7 +28,7 @@ class Database {
 				throw err;
 			}
 			else {
-				Logger.info(`MYSQL SERVER READY!`);
+				Logger.info(`MySQL server ready!`);
 			}
 		});
 	}

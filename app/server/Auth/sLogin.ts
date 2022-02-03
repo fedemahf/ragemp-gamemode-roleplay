@@ -5,10 +5,7 @@ import Browser from '../Options/sBrowser';
 import Camera from '../Options/sCamera';
 import Logger from '../Options/sLogger';
 import DB from '../Options/sDB';
-import Mailer from '../Options/sNodemailer';
 import PlayerSingletone from '../Player/sPlayerSingletone';
-
-
 
 class Login extends Auth {
     loginScreenPlayerPos: Vector3Mp;
@@ -23,7 +20,6 @@ class Login extends Auth {
         this.camPos2 = new mp.Vector3(0, 0, 212);
         this.camViewangle = 55;
 
-
         mp.events.add({		
 			"playerReady" : (player: PlayerMp) => {
                 this.playerReady(player);
@@ -32,20 +28,6 @@ class Login extends Auth {
             "sLogin-Login" : (player: PlayerMp, data: string) => {
                 this.login(player, data);
             },
-
-            "sLogin-SendCode" : (player: PlayerMp, email: string) => {
-                this.trySendCode(player, email);
-            },
-
-            "sLogin-WrongCodeVerifyTry" : (player: PlayerMp, data: string) => {
-                this.wrongCodeVerifyTry(player, data);
-            },
-
-            "sLogin-LoginWithSuccessCode" : (player: PlayerMp, data: string) => {
-                this.loginWithSuccessCode(player, data);
-            },
-		
-			
 		});
     }
 
@@ -66,19 +48,7 @@ class Login extends Auth {
             Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong email! Email: ${obj.email}`);
             return;
         }
-        if (d[0].socialclub !== player.socialClub) {
-            this.setShowRegistrationCode(player, true);
-            return;
-        }
         this.checkPasswordAndTryLoadAccount(player, d[0].guid, obj.email, d[0].password, pass);
-    }
-
-    setRegistrationCode(player: PlayerMp, code: number | boolean) {
-        Browser.pasteJs(player, `appData.views.Login.code = ${code};`);
-    }
-
-    setShowRegistrationCode(player: PlayerMp, status: boolean) {
-        Browser.pasteJs(player, `appData.views.Login.showCode = ${status};`);
     }
 
     isAlreadyPlaying(email: string) {
@@ -87,22 +57,6 @@ class Login extends Auth {
             if (player.email === email) return true;
         }
         return false;
-    }
-
-    async trySendCode(player: PlayerMp, email: string) {
-        if (!Mailer.isEmailValid(email)) {
-            Browser.showNotification(player, `Please, check your email address!`, `red`, 4, `Wrong email address`, `error.svg`);
-            return;
-        }
-        const code = this.sendAndGetCode(player, email);
-        this.setRegistrationCode(player, code);
-    }
-
-    async loginWithSuccessCode(player: PlayerMp, data: string) {
-        const obj = JSON.parse(data);
-        const pass = this.hashPassword(obj.password);
-        const d: any = await DB.query(`SELECT guid, email, password FROM users WHERE email = '${obj.email}' LIMIT 1`);
-        this.checkPasswordAndTryLoadAccount(player, d[0].guid, obj.email, d[0].password, pass);
     }
 
     checkPasswordAndTryLoadAccount(player: PlayerMp, guid: number, email:string, password1: string, password2: string) {
@@ -121,8 +75,6 @@ class Login extends Auth {
 
     loadAccount(player: PlayerMp, guid: number) {
         Browser.setLoadingScreenState(player, true);
-        this.setRegistrationCode(player, false);
-        this.setShowRegistrationCode(player, false);
         Browser.setUrl(player, '/', false);
         Camera.resetCamera(player);
         PlayerSingletone.loadAccount(player, guid);

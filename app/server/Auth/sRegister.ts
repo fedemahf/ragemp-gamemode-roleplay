@@ -1,5 +1,4 @@
 import Auth from './sAuth';
-import Mailer from '../Options/sNodemailer';
 import DB from '../Options/sDB';
 import Browser from '../Options/sBrowser';
 import PlayerSingletone from '../Player/sPlayerSingletone';
@@ -9,12 +8,8 @@ class Register extends Auth {
     constructor() {
         super();
         mp.events.add({		
-			"sRegister-SendCode" : (player: PlayerMp, email: string) => {
-                this.trySendCode(player, email);
-            },
-
-            "sRegister-WrongCodeVerifyTry" : (player: PlayerMp, data: string) => {
-                this.wrongCodeVerifyTry(player, data);
+			"sRegister-CheckEmail" : (player: PlayerMp, email: string) => {
+                this.checkEmail(player, email);
             },
 
             "sRegister-CheckName" : (player: PlayerMp, data: string) => {
@@ -27,19 +22,29 @@ class Register extends Auth {
 		});
 
     }
-    
-    async trySendCode(player: PlayerMp, email: string) {
-        if (!Mailer.isEmailValid(email)) {
+
+    isEmailValid(email: string) {
+        const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        return re.test(email);
+    }
+
+    async checkEmail(player: PlayerMp, email: string) {
+        if (!this.isEmailValid(email)) {
             Browser.showNotification(player, `Please, check your email address!`, `red`, 4, `Wrong email address`, `error.svg`);
-            return;
         }
-        const d: any = await DB.query(`SELECT email FROM users WHERE email = '${email}' LIMIT 1`);
-        if (d[0]) {
-            Browser.showNotification(player, `This email already exists!`, `red`, 4, `Wrong email address`, `error.svg`);
-            return;
+        else
+        {
+            const d: any = await DB.query(`SELECT email FROM users WHERE email = '${email}' LIMIT 1`);
+
+            if (d[0]) {
+                Browser.showNotification(player, `This email already exists!`, `red`, 4, `Wrong email address`, `error.svg`);
+            }
+            else
+            {
+                Browser.showNotification(player, `You can use this email!`, `green`, 4, `Success`);
+                this.setRegistrationEmailChecked(player, true);
+            }
         }
-        const code = this.sendAndGetCode(player, email);
-        this.setRegistrationCode(player, code);
     }
 
     async checkName(player: PlayerMp, obj: string) {
@@ -66,34 +71,20 @@ class Register extends Auth {
     async createAccount(player: PlayerMp, email: string, firstName: string, lastName: string, password: string) {
         const pass = this.hashPassword(password);
         await PlayerSingletone.createUser(player, email, firstName, lastName, pass);
-        const message = this.getRegisterMessage(email, firstName, lastName, password);
-        Mailer.sendMail(message);
-        Browser.showNotification(player, `Thank you for registration! Now you can log in`, `green`, 8, `Success`);
-        this.setRegistrationCode(player, false);
-    }
-
-    getRegisterMessage(email: string, firstName: string, lastName: string, password: string) {
-        const mail = {
-            from: `${Mailer.getMailAddress()}`,
-            to: `${email}`,
-            subject: `Success registration.`,
-            text: `Hello! Thank you for registration. Here is info about your account, in case you will forget it: FirstName: ${firstName} LastName: ${lastName} Password: ${password}`,
-            html: ` <b>Hello!</b><br>
-                    Thank you for registration.<br>
-                    Here is info about your account, in case you will forget it:<br>
-                    <b>FirstName:</b> ${firstName}<br>
-                    <b>LastName:</b> ${lastName}<br>
-                    <b>Password:</b> ${password}<br>`, 
+        Browser.showNotification(player, `Welcome to Los Santos, ${firstName} ${lastName}!`, `green`, 8, `Success`);
+        const obj = {
+            email: email.toLowerCase(),
+            password: password
         }
-        return mail;
-    }
-
-    setRegistrationCode(player: PlayerMp, code: number | boolean) {
-        Browser.pasteJs(player, `appData.views.Register.code = ${code};`);
+        player.call("cMisc-CallServerEvent", ["sLogin-Login", JSON.stringify(obj)]);
     }
 
     setRegistrationNameAvailable(player: PlayerMp, status: boolean) {
         Browser.pasteJs(player, `appData.views.Register.nameAvailable = ${status};`);
+    }
+
+    setRegistrationEmailChecked(player: PlayerMp, status: boolean) {
+        Browser.pasteJs(player, `appData.views.Register.emailChecked = ${status};`);
     }
 
 }

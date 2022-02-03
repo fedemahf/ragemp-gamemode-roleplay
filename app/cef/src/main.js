@@ -26,7 +26,3 @@ export default app;
 
 global.app = app;
 global.appData = app.$store.state;
-
-
-
-// appData.views.Register.code = 777;

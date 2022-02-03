@@ -2,36 +2,34 @@
 	<b class="full" style="background-color: rgba(0, 0, 0, 0.4);">
 		<router-link to="/login" class="link-button link-button_top transition_02">Already have an account? Log In</router-link>
 		<b class="login-window">
-			<input type="email" class="input input_transparent-with-bottom-border" placeholder="Email" v-model="email" :disabled="codeChecked" :class="{ 'checked': codeChecked }" autofocus>
-			<code-block v-if="!codeChecked" :code="data.code" @wrong-verify-try="wrongCodeVerifyTry" @success-verify="codeChecked = true" @send-code="sendCode"/>
-			
-			<b v-if="codeChecked">
-				<input type="text" class="input input_transparent-with-bottom-border" v-model="firstName" placeholder="First name" :class="{ 'checked': nameChecked }" @input="resetCheckedName" :disabled="nameChecked">
-				<input type="text" class="input input_transparent-with-bottom-border" v-model="lastName" placeholder="Last name" :class="{ 'checked': nameChecked }" @input="resetCheckedName" :disabled="nameChecked">
-				<a v-if="!data.nameAvailable" class="link-button theme_white transition_02 hover" @click="checkName">Check username</a>
-				<a v-if="data.nameAvailable && !nameChecked" class="link-button theme_green transition_02 hover" @click="nameChecked = true">Confirm username</a>
-
-				<b v-if="nameChecked">
-					<input type="text" class="input input_transparent-with-bottom-border" :class="{ 'checked': passwordChecked }" placeholder="Password" v-model="password">
-					<input type="text" class="input input_transparent-with-bottom-border" :class="{ 'checked': passwordChecked }" placeholder="Confirm password" v-model="passwordConfirm" @input="verifyPassword">
+			<input type="email" class="input input_transparent-with-bottom-border" placeholder="Email" v-model="email" @input="resetCheckedEmail" :class="{ 'checked': data.emailChecked }" @keyup.enter="checkEmail" autofocus required>
+			<b v-if="!data.emailChecked" class="code-block">
+				<a class="link-button theme_white transition_02 hover" @click="checkEmail">Check email</a>
+			</b>
+			<b v-else>
+				<input type="text" class="input input_transparent-with-bottom-border" v-model="firstName" placeholder="First name" :class="{ 'checked': nameChecked }" @input="resetCheckedName" :disabled="nameChecked" @keyup.enter="checkName" required>
+				<input type="text" class="input input_transparent-with-bottom-border" v-model="lastName" placeholder="Last name" :class="{ 'checked': nameChecked }" @input="resetCheckedName" :disabled="nameChecked" @keyup.enter="checkName" required>
+				<b v-if="!data.nameAvailable">
+					<a class="link-button theme_white transition_02 hover" @click="checkName">Check username</a>
+				</b>
+				<b v-else>
+					<input type="password" class="input input_transparent-with-bottom-border" :class="{ 'checked': passwordChecked }" placeholder="Password" v-model="password" @keyup.enter="createAccount" required>
+					<input type="password" class="input input_transparent-with-bottom-border" :class="{ 'checked': passwordChecked }" placeholder="Confirm password" v-model="passwordConfirm" @input="verifyPassword" @keyup.enter="createAccount" required>
 					<a v-if="passwordChecked" class="link-button link-button_login theme_green transition_02 hover" @click="createAccount">Create account</a>
 				</b>
-			</b>	
-			
+			</b>
 		</b>
 	</b>
 </template>
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
-import CodeBlock from '@/components/CodeBlock.vue';
 
 
 export default {
 	data: function () {
 		return {
 			email: '',
-			codeChecked: false,
 
 			firstName: '',
 			lastName: '',
@@ -44,22 +42,22 @@ export default {
 	},
 	props: {
 		data: {
-			code: { type: Number },
 			nameAvailable: { type: Boolean },
+			emailChecked: { type: Boolean },
 		},
 	},
 	methods: {
-		sendCode() {
-			mp.trigger("cMisc-CallServerEvent", "sRegister-SendCode", this.email.toLowerCase());
-		},
-
-		wrongCodeVerifyTry(tries) {
-			mp.trigger("cMisc-CallServerEvent", "sRegister-WrongCodeVerifyTry", JSON.stringify({tries}));
+		checkEmail() {
+			mp.trigger("cMisc-CallServerEvent", "sRegister-CheckEmail", this.email.toLowerCase());
 		},
 
 		resetCheckedName: function () {
 			this.nameChecked = false;
 			appData.views.Register.nameAvailable = false;
+		},
+
+		resetCheckedEmail: function () {
+			appData.views.Register.emailChecked = false;
 		},
 
 		checkName() {
@@ -77,14 +75,12 @@ export default {
 				lastName: this.lastName,
 			}
 			mp.trigger("cMisc-CallServerEvent", "sRegister-CheckName", JSON.stringify(obj));
-			// appData.views.Register.nameAvailable = true; // Set NameAvailble
 		},
 
 		verifyPassword() {
 			if (this.password === this.passwordConfirm) this.passwordChecked = true;
 			else this.passwordChecked = false;
 		},
-
 
 		createAccount() {
 			const obj = {
@@ -100,9 +96,6 @@ export default {
 			'addNotification',
 		]),
 	},
-	components: {
-		'code-block': CodeBlock,
-	}
 }
 
 

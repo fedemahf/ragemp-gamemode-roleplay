@@ -2,17 +2,15 @@
 	<b class="full" style="background-color: rgba(0, 0, 0, 0.4);">
 		<router-link to="/register" class="link-button link-button_top transition_02">Create new account</router-link>
 		<b class="login-window">
-			<input type="email" class="input input_transparent-with-bottom-border" placeholder="Email" v-model="email" :disabled="data.showCode" autofocus>
-			<input type="password" class="input input_transparent-with-bottom-border" placeholder="Password" v-model="password" :disabled="data.showCode">
-			<code-block v-if="data.showCode" :code="data.code" @wrong-verify-try="wrongCodeVerifyTry" @success-verify="successVerify" @send-code="sendCode"/>
-			<a class="link-button link-button_login theme_orange transition_02 hover" @click="login" :disabled="data.showCode">Log in</a>
+			<input type="email" class="input input_transparent-with-bottom-border" placeholder="Email" v-model="email" @keyup.enter="login" autofocus>
+			<input type="password" class="input input_transparent-with-bottom-border" placeholder="Password" @keyup.enter="login" v-model="password">
+			<a class="link-button link-button_login theme_orange transition_02 hover" @click="login">Log in</a>
 		</b>
 	</b>
 </template>
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
-import CodeBlock from '@/components/CodeBlock.vue';
 
 export default {
 	data: function () {
@@ -20,12 +18,6 @@ export default {
 			email: '',
 			password: '',
 		}
-	},
-	props: {
-		data: {
-			showCode: { type: Boolean },
-			code: { type: Number },
-		},
 	},
 	methods: {
 		login() {
@@ -36,29 +28,10 @@ export default {
 			mp.trigger("cMisc-CallServerEvent", "sLogin-Login", JSON.stringify(obj));
 		},
 
-		sendCode() {
-			mp.trigger("cMisc-CallServerEvent", "sLogin-SendCode", this.email.toLowerCase());
-		},
-
-		wrongCodeVerifyTry(tries) {
-			mp.trigger("cMisc-CallServerEvent", "sLogin-WrongCodeVerifyTry", JSON.stringify({tries}));
-		},
-
-		successVerify() {
-			const obj = {
-				email: this.email.toLowerCase(),
-				password: this.password,
-			}
-			mp.trigger("cMisc-CallServerEvent", "sLogin-LoginWithSuccessCode", JSON.stringify(obj));
-		},
-
 		...mapActions([
 			'addNotification',
 		]),
 	},
-	components: {
-		'code-block': CodeBlock,
-	}
 }
 </script>
 

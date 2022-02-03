@@ -11,13 +11,9 @@ const store = new Vuex.Store({
 		},
 		views: {
 			Register: {
-				code: false,
 				nameAvailable: false,
+				emailChecked: false,
 			},
-			Login: {
-				showCode: false,
-				code: false,
-			}
 		},
 		notifications: {
 			nextItemId: 1,
