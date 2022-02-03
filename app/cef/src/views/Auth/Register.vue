@@ -7,8 +7,8 @@
 				<a class="link-button theme_white transition_02 hover" @click="checkEmail">Check email</a>
 			</b>
 			<b v-else>
-				<input type="text" class="input input_transparent-with-bottom-border" v-model="firstName" placeholder="First name" :class="{ 'checked': nameChecked }" @input="resetCheckedName" :disabled="nameChecked" @keyup.enter="checkName" required>
-				<input type="text" class="input input_transparent-with-bottom-border" v-model="lastName" placeholder="Last name" :class="{ 'checked': nameChecked }" @input="resetCheckedName" :disabled="nameChecked" @keyup.enter="checkName" required>
+				<input type="text" class="input input_transparent-with-bottom-border" v-model="firstName" placeholder="First name" :class="{ 'checked': data.nameAvailable }" @input="resetCheckedName" @keyup.enter="checkName" required>
+				<input type="text" class="input input_transparent-with-bottom-border" v-model="lastName" placeholder="Last name" :class="{ 'checked': data.nameAvailable }" @input="resetCheckedName" @keyup.enter="checkName" required>
 				<b v-if="!data.nameAvailable">
 					<a class="link-button theme_white transition_02 hover" @click="checkName">Check username</a>
 				</b>
@@ -25,7 +25,6 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 
-
 export default {
 	data: function () {
 		return {
@@ -33,7 +32,6 @@ export default {
 
 			firstName: '',
 			lastName: '',
-			nameChecked: false,
 
 			password: '',
 			passwordConfirm: '',
@@ -52,7 +50,6 @@ export default {
 		},
 
 		resetCheckedName: function () {
-			this.nameChecked = false;
 			appData.views.Register.nameAvailable = false;
 		},
 
@@ -97,8 +94,6 @@ export default {
 		]),
 	},
 }
-
-
 </script>
 
 <style scoped>
@@ -140,5 +135,4 @@ export default {
 	color: limegreen;
 	border-color: limegreen;
 }
-
 </style>
