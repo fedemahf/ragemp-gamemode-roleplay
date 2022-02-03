@@ -65,18 +65,17 @@ export default {
 					title: `Empty name`,
 					img: 'error.svg',
 				});
-				return;
+			} else {
+				const obj = {
+					firstName: this.firstName,
+					lastName: this.lastName,
+				}
+				mp.trigger("cMisc-CallServerEvent", "sRegister-CheckName", JSON.stringify(obj));
 			}
-			const obj = { 
-				firstName: this.firstName,
-				lastName: this.lastName,
-			}
-			mp.trigger("cMisc-CallServerEvent", "sRegister-CheckName", JSON.stringify(obj));
 		},
 
 		verifyPassword() {
-			if (this.password === this.passwordConfirm) this.passwordChecked = true;
-			else this.passwordChecked = false;
+			this.passwordChecked = (this.password === this.passwordConfirm);
 		},
 
 		createAccount() {
