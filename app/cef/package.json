@@ -8,9 +8,7 @@
     "build": "vue-cli-service build --dest ../../dist/client_packages/cef"
   },
   "dependencies": {
-    "node-sass": "^4.13.1",
     "register-service-worker": "^1.6.2",
-    "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.6",
     "vuex": "^3.1.1"
@@ -18,6 +16,8 @@
   "devDependencies": {
     "@vue/cli-plugin-pwa": "^3.8.0",
     "@vue/cli-service": "^3.8.4",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^7.3.1",
     "vue-template-compiler": "^2.5.17"
   }
 }
