@@ -1,15 +1,9 @@
 require('./Auth/sLogin');
 require('./Auth/sRegister');
 
-/*
-import * as AuthAbstract from './Auth/AuthSingletone';
-import * as Misc from './Options/Misc';
-import * as MySQL from './Options/MySQL';
-import * as Nodemailer from './Options/Nodemailer';
-*/
-
-
-
+// import * as AuthAbstract from './Auth/AuthSingletone';
+// import * as Misc from './Options/Misc';
+// import * as MySQL from './Options/MySQL';
 
 mp.events.addCommand({
     'pos' : (player) => { 
