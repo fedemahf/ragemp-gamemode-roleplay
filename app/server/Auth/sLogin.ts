@@ -41,14 +41,26 @@ class Login extends Auth {
 
     async login(player: PlayerMp, data: string) {
         const obj = JSON.parse(data);
-        const pass = this.hashPassword(obj.password);
-        const d: any = await DB.query(`SELECT guid, email, password, socialclub FROM users WHERE email = '${DB.escape(obj.email)}' LIMIT 1`);
-        if (!d[0]) {
+        const result: any = await DB.query(`SELECT guid, email, password, salt, socialclub FROM users WHERE email = ${DB.escape(obj.email)} LIMIT 1`);
+        if (!result[0]) {
             Browser.showNotification(player, `This email doesn't exists!`, `red`, 4, `Wrong email address`, `error.svg`);
             Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong email! Email: ${obj.email}`);
-            return;
+        } else {
+            let guid: number = result[0].guid;
+            let email: string = obj.email;
+            let password1: string = result[0].password;
+            let password2: string = this.hashPassword(obj.password, result[0].salt);
+
+            if (password1 !== password2) {
+                Browser.showNotification(player, `Wrong password`, `red`, 4, `Error`, `error.svg`);
+                Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong password! Email: ${email}`);
+            } else if (this.isAlreadyPlaying(email)) {
+                Browser.showNotification(player, `This user already playing now!`, `red`, 4, `Error`, `error.svg`);
+                Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} tried to log in from another PC! Email: ${email}`);
+            } else {
+                this.loadAccount(player, guid);
+            }
         }
-        this.checkPasswordAndTryLoadAccount(player, d[0].guid, obj.email, d[0].password, pass);
     }
 
     isAlreadyPlaying(email: string) {
@@ -59,20 +71,6 @@ class Login extends Auth {
         }
 
         return false;
-    }
-
-    checkPasswordAndTryLoadAccount(player: PlayerMp, guid: number, email:string, password1: string, password2: string) {
-        if (password1 !== password2) {
-            Browser.showNotification(player, `Wrong password`, `red`, 4, `Error`, `error.svg`);
-            Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong password! Email: ${email}`);
-            return;
-        }
-        if (this.isAlreadyPlaying(email)) {
-            Browser.showNotification(player, `This user already playing now!`, `red`, 4, `Error`, `error.svg`);
-            Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} tried to log in from another PC! Email: ${email}`);
-            return;
-        }
-        this.loadAccount(player, guid);
     }
 
     loadAccount(player: PlayerMp, guid: number) {

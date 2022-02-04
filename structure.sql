@@ -7,7 +7,8 @@ CREATE TABLE `users` (
   `lang` varchar(3) NOT NULL DEFAULT 'eng',
   `adminlvl` int(10) NOT NULL DEFAULT '0',
   `position` text NOT NULL,
-  `password` text NOT NULL
+  `password` text NOT NULL,
+  `salt` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE `users`
