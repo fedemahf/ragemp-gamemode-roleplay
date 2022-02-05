@@ -9,7 +9,6 @@ This is RageMP start server template. It's using typescript (server-side and cli
 
 ## Install
 - Set the SQL credentials in a `.env` file in the root folder. See: [.env.example](.env.example)
-- Import the SQL structure from [structure.sql](structure.sql) into the database.
 - Download and install dependencies: `npm run init`
 - Build: `npm run build`.
 - Copy, move or symlink the `node_modules` folder and the folders inside `dist` into the root directory from the server.
@@ -18,7 +17,9 @@ This is RageMP start server template. It's using typescript (server-side and cli
 ## Fork differences from the original repo
 - Updated build scripts.
 - Removed mail confirmation on register and login.
-- Improved SQL security and fixed some errors on register.
+- Improved SQL security and fixed errors on register.
+- Modified password hashing algorithm from AES-256 to PBKDF2 with SHA-256.
+- Added salt in user passwords.
 - Added `dotenv-webpack` plugin for database configuration outside the repository.
 
 ## See also
