@@ -14,7 +14,6 @@
     "winston": "^3.2.1"
   },
   "scripts": {
-    "init": "npm install && npm install ./app/server && npm install ./app/client && npm install ./app/cef",
     "build-server": "npm run build --prefix ./app/server",
     "build-client": "npm run build --prefix ./app/client",
     "build-cef": "npm run build --prefix ./app/cef",

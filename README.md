@@ -9,7 +9,7 @@ This is RageMP start server template. It's using typescript (server-side and cli
 
 ## Install
 - Set the SQL credentials in a `.env` file in the root folder. See: [.env.example](.env.example)
-- Download and install dependencies: `npm run init`
+- Download and install dependencies: `npm install`
 - Build: `npm run build`.
 - Copy, move or symlink the `node_modules` folder and the folders inside `dist` into the root directory from the server.
 - Run the server.
