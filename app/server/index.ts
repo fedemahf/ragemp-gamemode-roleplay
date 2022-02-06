@@ -1,6 +1,7 @@
 require('./Auth/sLogin');
 require('./Auth/sRegister');
 require('./Chat');
+require('./Vehicle');
 
 // import * as AuthAbstract from './Auth/AuthSingletone';
 // import * as Misc from './Options/Misc';
@@ -15,14 +16,4 @@ mp.events.addCommand({
         const str = `x: ${pos.x}, y: ${pos.y}, z: ${pos.z}, rot: ${rot}, dim: ${player.dimension}`;
         player.outputChatBox(str);
     },
-
-    'v' : (player, fullText, model: string) => {
-        const pos = player.position;
-        const vehicle = mp.vehicles.new(RageEnums.Hashes.Vehicle.HYDRA, new mp.Vector3(pos.x, pos.y, pos.z), {
-			heading: player.heading,
-			dimension: player.dimension,
-		});
-        player.putIntoVehicle(vehicle, -1);
-    },
 });
-
