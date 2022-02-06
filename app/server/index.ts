@@ -1,5 +1,6 @@
 require('./Auth/sLogin');
 require('./Auth/sRegister');
+require('./Chat');
 
 // import * as AuthAbstract from './Auth/AuthSingletone';
 // import * as Misc from './Options/Misc';
