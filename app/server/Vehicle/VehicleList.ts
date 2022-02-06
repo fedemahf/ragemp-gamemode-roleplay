@@ -535,7 +535,24 @@ const vehicleList = [
     {name: "ZR380", code: 0x20314B42},
     {name: "ZR3802", code: 0xBE11EFC6},
     {name: "ZR3803", code: 0xA7DCC35C},
-    {name: "ZTYPE", code: 0x2D3BD401}
+    {name: "ZTYPE", code: 0x2D3BD401},
+    {name: "ASTRON", code: 0x258C9364},
+    {name: "BALLER7", code: 0x1573422D},
+    {name: "BUFFALO4", code: 0xDB0C9B04},
+    {name: "CHAMPION", code: 0xC972A155},
+    {name: "CINQUEMILA", code: 0xA4F52C13},
+    {name: "COMET7", code: 0x440851D8},
+    {name: "DEITY", code: 0x5B531351},
+    {name: "GRANGER2", code: 0xF06C29C7},
+    {name: "IGNUS", code: 0xA9EC907B},
+    {name: "IWAGEN", code: 0x27816B7E},
+    {name: "JUBILEE", code: 0x1B8165D3},
+    {name: "MULE5", code: 0x501AC93C},
+    {name: "PATRIOT3", code: 0xD80F4A44},
+    {name: "REEVER", code: 0x76D7C404},
+    {name: "SHINOBI", code: 0x50A6FB9C},
+    {name: "YOUGA4", code: 0x589A840C},
+    {name: "ZENO", code: 0x2714AA93}
 ]
 
 export default vehicleList;
