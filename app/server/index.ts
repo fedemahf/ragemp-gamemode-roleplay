@@ -3,12 +3,18 @@ require('./Auth/sRegister');
 require('./Chat');
 require('./Vehicle');
 
+import ChatMisc from './Chat/ChatMisc';
+
 // import * as AuthAbstract from './Auth/AuthSingletone';
 // import * as Misc from './Options/Misc';
 // import * as MySQL from './Options/MySQL';
 
 mp.events.addCommand({
-    'pos' : (player) => { 
+    'pos' : (player: PlayerMp) => {
+        if (ChatMisc.notLoggedError(player)) {
+            return;
+        }
+
         const pos = player.position;
         let rot;
         if (player.vehicle) rot = player.vehicle.rotation.z

@@ -2,11 +2,16 @@
 
 import Logger from '../Options/sLogger';
 import vehicleList from './VehicleList';
+import ChatMisc from './../Chat/ChatMisc';
 
 class Vehicle {
     constructor() {
         mp.events.addCommand({
             'v': (player: PlayerMp, fullText: string) => {
+                if (ChatMisc.notLoggedError(player)) {
+                    return;
+                }
+
                 let vehicleName: string;
                 let vehicleId: number;
 

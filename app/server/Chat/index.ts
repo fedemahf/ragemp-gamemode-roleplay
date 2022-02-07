@@ -1,6 +1,6 @@
 import Logger from '../Options/sLogger';
-import ChatColor from './ChatColor';
-import ColorList from './ColorList';
+import ChatMisc from './ChatMisc';
+import ChatColorList from './ChatColorList';
 
 class Chat {
     readonly DISTANCE_SPEECH: number = 10;
@@ -15,6 +15,10 @@ class Chat {
 
     constructor() {
         mp.events.add('playerChat', (player: PlayerMp, message: string) => {
+            if (ChatMisc.notLoggedError(player)) {
+                return;
+            }
+
             if (message) {
                 message = message.trim();
 
@@ -26,6 +30,10 @@ class Chat {
 
         mp.events.addCommand({
             'me': (player: PlayerMp, message: string) => {
+                if (ChatMisc.notLoggedError(player)) {
+                    return;
+                }
+
                 if (message) {
                     message = message.trim();
 
@@ -35,10 +43,14 @@ class Chat {
                     }
                 }
 
-                player.outputChatBox(ChatColor.insertColor(ColorList.gray) + this.getTimeStamp() + `USAGE: /me <action>`);
+                player.outputChatBox(ChatMisc.insertColorAndTimeStamp(ChatColorList.gray) + `USAGE: /me <action>`);
             },
 
             'do': (player: PlayerMp, message: string) => {
+                if (ChatMisc.notLoggedError(player)) {
+                    return;
+                }
+
                 if (message) {
                     message = message.trim();
 
@@ -48,10 +60,14 @@ class Chat {
                     }
                 }
 
-                player.outputChatBox(ChatColor.insertColor(ColorList.gray) + this.getTimeStamp() + `USAGE: /do <context>`);
+                player.outputChatBox(ChatMisc.insertColorAndTimeStamp(ChatColorList.gray) + `USAGE: /do <context>`);
             },
 
             'l': (player: PlayerMp, message: string) => {
+                if (ChatMisc.notLoggedError(player)) {
+                    return;
+                }
+
                 if (message) {
                     message = message.trim();
 
@@ -61,10 +77,14 @@ class Chat {
                     }
                 }
 
-                player.outputChatBox(ChatColor.insertColor(ColorList.gray) + this.getTimeStamp() + `USAGE: /l <text>`);
+                player.outputChatBox(ChatMisc.insertColorAndTimeStamp(ChatColorList.gray) + `USAGE: /l <text>`);
             },
 
             's': (player: PlayerMp, message: string) => {
+                if (ChatMisc.notLoggedError(player)) {
+                    return;
+                }
+
                 if (message) {
                     message = message.trim();
 
@@ -74,10 +94,14 @@ class Chat {
                     }
                 }
 
-                player.outputChatBox(ChatColor.insertColor(ColorList.gray) + this.getTimeStamp() + `USAGE: /s <text>`);
+                player.outputChatBox(ChatMisc.insertColorAndTimeStamp(ChatColorList.gray) + `USAGE: /s <text>`);
             },
 
             'w': (player: PlayerMp, message: string) => {
+                if (ChatMisc.notLoggedError(player)) {
+                    return;
+                }
+
                 if (message) {
                     message = message.trim();
 
@@ -87,7 +111,7 @@ class Chat {
                     }
                 }
 
-                player.outputChatBox(ChatColor.insertColor(ColorList.gray) + this.getTimeStamp() + `USAGE: /w <text>`);
+                player.outputChatBox(ChatMisc.insertColorAndTimeStamp(ChatColorList.gray) + `USAGE: /w <text>`);
             },
 
             // 'g' : (player, fullText) => {
@@ -96,17 +120,6 @@ class Chat {
             //     misc.log.debug(`${player.name} ${fullText}`);
             // }
         });
-    }
-
-    getTimeStamp(): string {
-        const date = new Date();
-        let result: string =
-            `[` +
-            `${date.getHours().toString().padStart(2, "0")}:` +
-            `${date.getMinutes().toString().padStart(2, "0")}:` +
-            `${date.getSeconds().toString().padStart(2, "0")}` +
-            `]`;
-        return result;
     }
 
     getSpeechColor(dist: number): number {
@@ -161,7 +174,7 @@ class Chat {
         mp.players.forEachInRange(player.position, this.DISTANCE_SPEECH, (client: PlayerMp) => {
             const color: number = this.getSpeechColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} says: ${message}`;
-            client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
+            client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
             Logger.debug(output);
         });
     }
@@ -170,7 +183,7 @@ class Chat {
         mp.players.forEachInRange(player.position, this.DISTANCE_SHOUT, (client: PlayerMp) => {
             const color: number = this.getShoutColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} shouts: ${message}`;
-            client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
+            client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
             Logger.debug(output);
         });
     }
@@ -179,7 +192,7 @@ class Chat {
         mp.players.forEachInRange(player.position, this.DISTANCE_WHISPER, (client: PlayerMp) => {
             const color: number = this.getWhisperColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} whipers: ${message}`;
-            client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
+            client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
             Logger.debug(output);
         });
     }
@@ -188,7 +201,7 @@ class Chat {
         mp.players.forEachInRange(player.position, this.DISTANCE_ACTION, (client: PlayerMp) => {
             const color: number = this.getActionColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} ${message}`;
-            client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
+            client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
             Logger.debug(output);
         });
     }
@@ -197,7 +210,7 @@ class Chat {
         mp.players.forEachInRange(player.position, this.DISTANCE_CONTEXT, (client: PlayerMp) => {
             // const color: string = this.COLOR_CONTEXT;
             const output: string = `[ID: ${player.id}] ${message}`;
-            client.outputChatBox(ChatColor.insertColor(this.COLOR_CONTEXT) + this.getTimeStamp() + output);
+            client.outputChatBox(ChatMisc.insertColorAndTimeStamp(this.COLOR_CONTEXT) + output);
             Logger.debug(output);
         });
     }
