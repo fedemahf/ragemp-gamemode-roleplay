@@ -109,7 +109,7 @@ class Chat {
         return result;
     }
 
-    getSpeechColor(dist: number): string {
+    getSpeechColor(dist: number): number {
         let index: number = Math.floor(dist / Math.round(this.DISTANCE_SPEECH / this.COLOR_SPEECH.length));
 
         // fix index out of bounds
@@ -118,10 +118,10 @@ class Chat {
             index = this.COLOR_SPEECH.length - 1;
         }
 
-        return this.COLOR_SPEECH[index].toString();
+        return this.COLOR_SPEECH[index];
     }
 
-    getShoutColor(dist: number): string {
+    getShoutColor(dist: number): number {
         let index: number = Math.floor(dist / Math.round(this.DISTANCE_SHOUT / this.COLOR_SPEECH.length));
 
         // fix index out of bounds
@@ -130,10 +130,10 @@ class Chat {
             index = this.COLOR_SPEECH.length - 1;
         }
 
-        return this.COLOR_SPEECH[index].toString();
+        return this.COLOR_SPEECH[index];
     }
 
-    getWhisperColor(dist: number): string {
+    getWhisperColor(dist: number): number {
         let index: number = Math.floor(dist / Math.round(this.DISTANCE_WHISPER / this.COLOR_SPEECH.length));
 
         // fix index out of bounds
@@ -142,10 +142,10 @@ class Chat {
             index = this.COLOR_SPEECH.length - 1;
         }
 
-        return this.COLOR_SPEECH[index].toString();
+        return this.COLOR_SPEECH[index];
     }
 
-    getActionColor(dist: number): string {
+    getActionColor(dist: number): number {
         let index: number = Math.floor(dist / Math.round(this.DISTANCE_ACTION / this.COLOR_ACTION.length));
 
         // fix index out of bounds
@@ -154,46 +154,46 @@ class Chat {
             index = this.COLOR_SPEECH.length - 1;
         }
 
-        return this.COLOR_ACTION[index].toString();
+        return this.COLOR_ACTION[index];
     }
 
-    emulateSpeech(player: PlayerMp, message: string, hide: Boolean = false) {
+    emulateSpeech(player: PlayerMp, message: string): void {
         mp.players.forEachInRange(player.position, this.DISTANCE_SPEECH, (client: PlayerMp) => {
-            const color: string = this.getSpeechColor(client.dist(player.position));
+            const color: number = this.getSpeechColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} says: ${message}`;
             client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
             Logger.debug(output);
         });
     }
 
-    emulateShout(player: PlayerMp, message: string, hide: Boolean = false) {
+    emulateShout(player: PlayerMp, message: string): void {
         mp.players.forEachInRange(player.position, this.DISTANCE_SHOUT, (client: PlayerMp) => {
-            const color: string = this.getShoutColor(client.dist(player.position));
+            const color: number = this.getShoutColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} shouts: ${message}`;
             client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
             Logger.debug(output);
         });
     }
 
-    emulateWhisper(player: PlayerMp, message: string, hide: Boolean = false) {
+    emulateWhisper(player: PlayerMp, message: string): void {
         mp.players.forEachInRange(player.position, this.DISTANCE_WHISPER, (client: PlayerMp) => {
-            const color: string = this.getWhisperColor(client.dist(player.position));
+            const color: number = this.getWhisperColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} whipers: ${message}`;
             client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
             Logger.debug(output);
         });
     }
 
-    emulateAction(player: PlayerMp, message: string, hide: Boolean = false) {
+    emulateAction(player: PlayerMp, message: string): void {
         mp.players.forEachInRange(player.position, this.DISTANCE_ACTION, (client: PlayerMp) => {
-            const color: string = this.getActionColor(client.dist(player.position));
+            const color: number = this.getActionColor(client.dist(player.position));
             const output: string = `${player.firstName} ${player.lastName} ${message}`;
             client.outputChatBox(ChatColor.insertColor(color) + this.getTimeStamp() + output);
             Logger.debug(output);
         });
     }
 
-    emulateContext(player: PlayerMp, message: string, hide: Boolean = false) {
+    emulateContext(player: PlayerMp, message: string): void {
         mp.players.forEachInRange(player.position, this.DISTANCE_CONTEXT, (client: PlayerMp) => {
             // const color: string = this.COLOR_CONTEXT;
             const output: string = `[ID: ${player.id}] ${message}`;
@@ -201,8 +201,6 @@ class Chat {
             Logger.debug(output);
         });
     }
-
-    //
 }
 
 const chat = new Chat();
