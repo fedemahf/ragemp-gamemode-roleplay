@@ -1,30 +1,40 @@
 /// <reference path="../index.d.ts" />
 
-// import Logger from '../Options/sLogger';
+import Logger from '../Options/sLogger';
 import vehicleList from './VehicleList';
 
 class Vehicle {
     constructor() {
         mp.events.addCommand({
             'v': (player: PlayerMp, fullText: string) => {
-                let vehicleId = RageEnums.Hashes.Vehicle.HYDRA;
-        
+                let vehicleName: string;
+                let vehicleId: number;
+
                 if (fullText) {
-                    let vehicleName = fullText.trim().toUpperCase();
-                    let result = vehicleList.find(car => {car.name == vehicleName});
-        
-                    if (result != undefined) {
-                        vehicleId = result.code;
-                        player.outputChatBox(`${vehicleName} = ${vehicleId}`);
+                    vehicleName = fullText.trim().toUpperCase();
+                    const result: number = vehicleList[vehicleName];
+
+                    if (result) {
+                        vehicleId = result;
                     }
                 }
-        
-                const vehicle = mp.vehicles.new(vehicleId, new mp.Vector3(player.position.x, player.position.y, player.position.z), {
-                    heading: player.heading,
-                    dimension: player.dimension,
-                });
 
-                player.putIntoVehicle(vehicle, 0);
+                if (vehicleId) {
+                    const vehicle = mp.vehicles.new(vehicleId, new mp.Vector3(player.position.x, player.position.y, player.position.z), {
+                        heading: player.heading,
+                        dimension: player.dimension,
+                    });
+
+                    player.putIntoVehicle(vehicle, 0);
+                    player.outputChatBox(`${vehicleName} (ID: ${vehicleId}) spawned!`);
+                    Logger.info(`${player.firstName} ${player.lastName} (ID: ${player.id}) spawned a ${vehicleName} (ID: ${vehicleId})`);
+                } else {
+                    if (vehicleName) {
+                        player.outputChatBox(`Vehicle "${vehicleName}" not found!`);
+                    } else {
+                        player.outputChatBox(`USAGE: /v <vehicle>`);
+                    }
+                }
             },
         });
     }
