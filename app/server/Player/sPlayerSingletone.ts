@@ -34,6 +34,7 @@ class PlayerSingletone {
         player.lang = d[0].lang;
 
         new PlayerLoader(player);
+        player.updateName();
 
         setTimeout(() => {
             // player.teleport(JSON.parse(d[0].position));
@@ -43,8 +44,8 @@ class PlayerSingletone {
             Browser.setLoadingScreenState(player, false);
         }, 1000); 
 
-
         player.loggedIn = true;
     }
 }
+
 export default new PlayerSingletone();
