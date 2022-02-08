@@ -11,7 +11,7 @@ class PlayerSingletone {
 
     constructor() {
         this.startCoord = {
-            pos: new mp.Vector3(-2166.795, 5197.364, 16.88),
+            pos: new mp.Vector3(-164.0, 6426.0, 32.0),
             rot: 120,
             dim: 0,
         }
@@ -36,7 +36,8 @@ class PlayerSingletone {
         new PlayerLoader(player);
 
         setTimeout(() => {
-            player.teleport(JSON.parse(d[0].position));
+            // player.teleport(JSON.parse(d[0].position));
+            player.teleport(this.startCoord);
         }, 500);
         setTimeout(() => {
             Browser.setLoadingScreenState(player, false);
