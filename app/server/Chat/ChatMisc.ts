@@ -3,11 +3,11 @@ import ChatColorList from './ChatColorList';
 
 class ChatMisc {
     private insertColor(color: string | number): string {
-        let result: string = ``;
+        let result: string = '';
 
         if (typeof(color) == 'string') {
             if (ChatColorList[color]) {
-                result = `!{#${ChatColorList[color].toString(16)}}`;
+                result = `!{#${ChatColorList[color].toString(16).padStart(6, '0')}}`;
             } else {
                 if (/^#?[A-fa-f0-9]{6}$/.test(color)) {
                     if (color[0] == '#') {
@@ -21,9 +21,9 @@ class ChatMisc {
             }
         } else {
             if (color >= 0x0 && color <= 0xFFFFFF) {
-                result = `!{#${color.toString(16)}}`;
+                result = `!{#${color.toString(16).padStart(6, '0')}}`;
             } else {
-                Logger.error(`ChatColor.insertColor(0x${color.toString(16)}): out of bounds`);
+                Logger.error(`ChatColor.insertColor(0x${color.toString(16).padStart(6, '0')}): out of bounds`);
             }
         }
 
