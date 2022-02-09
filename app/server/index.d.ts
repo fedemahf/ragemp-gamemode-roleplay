@@ -6,6 +6,7 @@ interface PlayerMp {
     lastName: string;
     lang: string;
     adminlvl: number;
+    dead: boolean;
 
     updateName(): void;
     isDriver(): boolean;

@@ -4,13 +4,14 @@ require('./Chat');
 require('./Vehicle');
 
 import ChatMisc from './Chat/ChatMisc';
+import Logger from './Options/sLogger';
 
 // import * as AuthAbstract from './Auth/AuthSingletone';
 // import * as Misc from './Options/Misc';
 // import * as MySQL from './Options/MySQL';
 
 mp.events.addCommand({
-    'pos' : (player: PlayerMp) => {
+    'pos': (player: PlayerMp) => {
         if (ChatMisc.notLoggedError(player)) {
             return;
         }
@@ -22,4 +23,35 @@ mp.events.addCommand({
         const str = `x: ${pos.x}, y: ${pos.y}, z: ${pos.z}, rot: ${rot}, dim: ${player.dimension}`;
         player.outputChatBox(str);
     },
+
+    'respawn': (player: PlayerMp) => {
+        if (ChatMisc.notLoggedError(player)) {
+            return;
+        }
+
+        if (!player.dead) {
+            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + ` You need to be dead to respawn!`);
+        } else {
+            player.spawn(player.position);
+            player.health = 100;
+            // player.tp(tp);
+            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + ` Respawned!`);
+            Logger.debug(`${player.name} respawned!`);
+            player.dead = false;
+        }
+    }
+});
+
+mp.events.add({
+    "playerDeath": (player: PlayerMp, reason: number, killer: PlayerMp) => {
+
+        if (killer) {
+            Logger.debug(`${player.name} death! Reason: ${reason}, killer: ${killer.name}`);
+        } else {
+            Logger.debug(`${player.name} death! Reason: ${reason}`);
+        }
+
+        player.dead = true;
+        player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + ` You died! Use /respawn whenever you're ready.`);
+    }
 });
