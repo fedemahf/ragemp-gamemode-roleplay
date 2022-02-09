@@ -34,10 +34,8 @@ export default class PlayerLoader {
             } else {
                 let tmp: number = parseInt(skinName, 10);
 
-                if (!isNaN(tmp) && tmp >= 0) {
-                    if (tmp < PedHash.values.length) {
-                        skinId = PedHash.values[tmp];
-                    }
+                if (!isNaN(tmp) && tmp >= 0 && tmp < PedHash.hashes.length) {
+                    skinId = PedHash.hashes[tmp];
                 }
             }
 

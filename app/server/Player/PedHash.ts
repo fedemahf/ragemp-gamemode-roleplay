@@ -741,9 +741,17 @@ export const list = {
     u_m_y_zombie_01: 0xAC4B4506,
 };
 
-export const values: Array<number> = Object.values(list);
-export const keys: Array<string> = Object.keys(list);
+export const hashes: Array<number> = Object.values(list);
+export const models: Array<string> = Object.keys(list);
 
-export function getSkinModelById(skinId: number): string | undefined {
-    return keys.find(key => list[key] === skinId);
+export function getSkinModelByHash(skinId: number): string | undefined {
+    return models.find(key => list[key] === skinId);
+}
+
+// export function getSkinModelByIndex(index: number): string | undefined {
+//     return models[index];
+// }
+
+export function getSkinIndexByModel(skinModel: string): number {
+    return models.indexOf(skinModel);
 }

@@ -5,6 +5,7 @@ require('./Vehicle');
 
 import ChatMisc from './Chat/ChatMisc';
 import Logger from './Options/sLogger';
+import PedHash = require("./Player/PedHash");
 
 mp.events.addCommand({
     'pos': (player: PlayerMp) => {
@@ -47,7 +48,10 @@ mp.events.addCommand({
                 player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + `You need to be alive to change your skin!`);
             } else {
                 if (player.setSkin(fullText)) {
-                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + `Skin changed! New skin: ${fullText.trim().toUpperCase()} (ID: ${player.model})`);
+                    let skinModel: string = PedHash.getSkinModelByHash(player.model).toUpperCase();
+                    let skinIndex: number = PedHash.getSkinIndexByModel(skinModel);
+
+                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + `Skin changed! New skin: ${skinModel} (INDEX: ${skinIndex}, ID: ${player.model})`);
                 } else {
                     player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + `Skin not found, try again!`);
                 }
