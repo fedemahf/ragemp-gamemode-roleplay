@@ -753,5 +753,5 @@ export function getSkinModelByHash(skinId: number): string | undefined {
 // }
 
 export function getSkinIndexByModel(skinModel: string): number {
-    return models.indexOf(skinModel);
+    return models.indexOf(skinModel.toLowerCase());
 }

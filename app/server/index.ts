@@ -32,7 +32,7 @@ mp.events.addCommand({
             player.spawn(player.position);
             player.health = 100;
             // player.tp(tp);
-            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + `Respawned!`);
+            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('green') + `Respawned!`);
             Logger.debug(`${player.name} respawned!`);
             player.dead = false;
         }
@@ -50,8 +50,7 @@ mp.events.addCommand({
                 if (player.setSkin(fullText)) {
                     let skinModel: string = PedHash.getSkinModelByHash(player.model).toUpperCase();
                     let skinIndex: number = PedHash.getSkinIndexByModel(skinModel);
-
-                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + `Skin changed! New skin: ${skinModel} (INDEX: ${skinIndex}, ID: ${player.model})`);
+                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('green') + `Skin changed! New skin: ${skinModel} (IDX: ${skinIndex}, HASH: 0x${player.model.toString(16).padStart(6, '0')})`);
                 } else {
                     player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + `Skin not found, try again!`);
                 }
