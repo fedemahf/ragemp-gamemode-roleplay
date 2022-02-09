@@ -26,12 +26,12 @@ mp.events.addCommand({
         }
 
         if (!player.dead) {
-            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + ` You need to be dead to respawn!`);
+            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + `You need to be dead to respawn!`);
         } else {
             player.spawn(player.position);
             player.health = 100;
             // player.tp(tp);
-            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + ` Respawned!`);
+            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + `Respawned!`);
             Logger.debug(`${player.name} respawned!`);
             player.dead = false;
         }
@@ -44,12 +44,12 @@ mp.events.addCommand({
 
         if (fullText) {
             if (player.dead) {
-                player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + ` You need to be alive to change your skin!`);
+                player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + `You need to be alive to change your skin!`);
             } else {
                 if (player.setSkin(fullText)) {
-                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + ` Skin changed! New skin: ${fullText.trim().toUpperCase()} (ID: ${player.model})`);
+                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + `Skin changed! New skin: ${fullText.trim().toUpperCase()} (ID: ${player.model})`);
                 } else {
-                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + ` Skin not found, try again!`);
+                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + `Skin not found, try again!`);
                 }
             }
         } else {
@@ -68,6 +68,6 @@ mp.events.add({
         }
 
         player.dead = true;
-        player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + ` You died! Use /respawn whenever you're ready.`);
+        player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + `You died! Use /respawn whenever you're ready.`);
     }
 });

@@ -2,7 +2,7 @@ import Logger from '../Options/sLogger';
 import ChatColorList from './ChatColorList';
 
 class ChatMisc {
-    insertColor(color: string | number): string {
+    private insertColor(color: string | number): string {
         let result: string = ``;
 
         if (typeof(color) == 'string') {
@@ -30,7 +30,7 @@ class ChatMisc {
         return result;
     }
 
-    getTimeStamp(): string {
+    private getTimeStamp(): string {
         const date = new Date();
         let result: string =
             `[` +
@@ -41,11 +41,11 @@ class ChatMisc {
         return result;
     }
 
-    insertColorAndTimeStamp(color: string | number): string {
-        return this.insertColor(color) + this.getTimeStamp();
+    public insertColorAndTimeStamp(color: string | number): string {
+        return this.insertColor(color) + this.getTimeStamp() + ' ';
     }
 
-    notLoggedError(player: PlayerMp): boolean {
+    public notLoggedError(player: PlayerMp): boolean {
         if (!player.loggedIn) {
             player.outputChatBox(this.insertColorAndTimeStamp(ChatColorList.gray) + `You are not logged!`);
             return true;
