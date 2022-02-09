@@ -11,6 +11,7 @@ interface PlayerMp {
     updateName(): void;
     isDriver(): boolean;
     teleport(coord: EntityCoord): void;
+    setSkin(skinName: string): number;
 }
 
 

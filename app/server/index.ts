@@ -6,10 +6,6 @@ require('./Vehicle');
 import ChatMisc from './Chat/ChatMisc';
 import Logger from './Options/sLogger';
 
-// import * as AuthAbstract from './Auth/AuthSingletone';
-// import * as Misc from './Options/Misc';
-// import * as MySQL from './Options/MySQL';
-
 mp.events.addCommand({
     'pos': (player: PlayerMp) => {
         if (ChatMisc.notLoggedError(player)) {
@@ -39,7 +35,27 @@ mp.events.addCommand({
             Logger.debug(`${player.name} respawned!`);
             player.dead = false;
         }
-    }
+    },
+
+    'skin': (player: PlayerMp, fullText: string) => {
+        if (ChatMisc.notLoggedError(player)) {
+            return;
+        }
+
+        if (fullText) {
+            if (player.dead) {
+                player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + ` You need to be alive to change your skin!`);
+            } else {
+                if (player.setSkin(fullText)) {
+                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('lightgreen') + ` Skin changed! New skin: ${fullText.trim().toUpperCase()} (ID: ${player.model})`);
+                } else {
+                    player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + ` Skin not found, try again!`);
+                }
+            }
+        } else {
+            player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + `USAGE: /skin <number | text>`);
+        }
+    },
 });
 
 mp.events.add({
