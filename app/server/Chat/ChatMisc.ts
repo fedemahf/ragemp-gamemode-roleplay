@@ -3,25 +3,31 @@ import ChatColorList from './ChatColorList';
 
 class ChatMisc {
     insertColor(color: string | number): string {
+        let result: string = ``;
+
         if (typeof(color) == 'string') {
             if (ChatColorList[color]) {
-                color = ChatColorList[color];
+                result = `!{#${ChatColorList[color].toString(16)}}`;
             } else {
-                color = color.replaceAll('#', '');
-
-                if (!/^[A-fa-f0-9]{6}$/.test(color)) {
-                    Logger.error(`ChatColor.insertColor(${color}): invalid value`);
-                    return ``;
+                if (/^#?[A-fa-f0-9]{6}$/.test(color)) {
+                    if (color[0] == '#') {
+                        result = `!{${ChatColorList[color].toString(16)}}`;
+                    } else {
+                        result = `!{#${ChatColorList[color].toString(16)}}`;
+                    }
+                } else {
+                    Logger.error(`ChatColor.insertColor("${color}"): invalid value`);
                 }
             }
         } else {
-            if (color < 0x0 || color > 0xFFFFFF) {
-                Logger.error(`ChatColor.insertColor(${color}): out of bounds`);
-                return ``;
+            if (color >= 0x0 && color <= 0xFFFFFF) {
+                result = `!{#${color.toString(16)}}`;
+            } else {
+                Logger.error(`ChatColor.insertColor(0x${color.toString(16)}): out of bounds`);
             }
         }
 
-        return `!{#${color}}`;
+        return result;
     }
 
     getTimeStamp(): string {
