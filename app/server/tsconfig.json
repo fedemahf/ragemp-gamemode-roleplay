@@ -7,7 +7,8 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "lib": ["esnext", "dom"],
-        "sourceMap": false
+        "sourceMap": false,
+        "resolveJsonModule": true
     },
     "include": [
         "**/*"
