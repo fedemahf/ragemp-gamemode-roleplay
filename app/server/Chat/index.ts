@@ -171,48 +171,58 @@ class Chat {
     }
 
     emulateSpeech(player: PlayerMp, message: string): void {
+        const output: string = `${player.firstName} ${player.lastName} says: ${message}`;
+
         mp.players.forEachInRange(player.position, this.DISTANCE_SPEECH, (client: PlayerMp) => {
             const color: number = this.getSpeechColor(client.dist(player.position));
-            const output: string = `${player.firstName} ${player.lastName} says: ${message}`;
             client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
-            Logger.debug(output);
         });
+
+        Logger.debug(output);
     }
 
     emulateShout(player: PlayerMp, message: string): void {
+        const output: string = `${player.firstName} ${player.lastName} shouts: ${message}`;
+
         mp.players.forEachInRange(player.position, this.DISTANCE_SHOUT, (client: PlayerMp) => {
             const color: number = this.getShoutColor(client.dist(player.position));
-            const output: string = `${player.firstName} ${player.lastName} shouts: ${message}`;
             client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
-            Logger.debug(output);
         });
+
+        Logger.debug(output);
     }
 
     emulateWhisper(player: PlayerMp, message: string): void {
+        const output: string = `${player.firstName} ${player.lastName} whipers: ${message}`;
+
         mp.players.forEachInRange(player.position, this.DISTANCE_WHISPER, (client: PlayerMp) => {
             const color: number = this.getWhisperColor(client.dist(player.position));
-            const output: string = `${player.firstName} ${player.lastName} whipers: ${message}`;
             client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
-            Logger.debug(output);
         });
+
+        Logger.debug(output);
     }
 
     emulateAction(player: PlayerMp, message: string): void {
+        const output: string = `${player.firstName} ${player.lastName} ${message}`;
+
         mp.players.forEachInRange(player.position, this.DISTANCE_ACTION, (client: PlayerMp) => {
             const color: number = this.getActionColor(client.dist(player.position));
-            const output: string = `${player.firstName} ${player.lastName} ${message}`;
             client.outputChatBox(ChatMisc.insertColorAndTimeStamp(color) + output);
-            Logger.debug(output);
         });
+
+        Logger.debug(output);
     }
 
     emulateContext(player: PlayerMp, message: string): void {
+        const output: string = `[ID: ${player.id}] ${message}`;
+
         mp.players.forEachInRange(player.position, this.DISTANCE_CONTEXT, (client: PlayerMp) => {
             // const color: string = this.COLOR_CONTEXT;
-            const output: string = `[ID: ${player.id}] ${message}`;
             client.outputChatBox(ChatMisc.insertColorAndTimeStamp(this.COLOR_CONTEXT) + output);
-            Logger.debug(output);
         });
+
+        Logger.debug(output);
     }
 }
 
