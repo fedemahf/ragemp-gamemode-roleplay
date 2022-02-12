@@ -73,5 +73,32 @@ mp.events.add({
 
         player.dead = true;
         player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + `You died! Use /respawn whenever you're ready.`);
+    },
+
+    "playerQuit": (player: PlayerMp, exitType: string, reason: string) => {
+        let message: string;
+        let output: string;
+
+        switch (exitType) {
+            // case "disconnect":
+            //     message = `${player.name} disconnected.`;
+            //     break;
+            case "timeout":
+                message = `${player.name} (ID: ${player.id}) timed out.`;
+                break;
+            case "kicked":
+                message = `${player.name} (ID: ${player.id}) was kicked (reason: ${reason}).`;
+                break;
+            default:
+                message = `${player.name} (ID: ${player.id}) disconnected.`;
+        }
+
+        output = ChatMisc.insertColorAndTimeStamp('gray') + `(( ${message} ))`;
+
+        mp.players.forEachInRange(player.position, 20.0, (client: PlayerMp) => {
+            client.outputChatBox(output);
+        });
+
+        Logger.debug(message);
     }
 });
