@@ -13,19 +13,19 @@ class Database {
 			database: process.env.MYSQL_DATABASE
 		};
 
+		this.connection = mysql.createPool(this.config);
+		this.connectDatabase();
+	}
+
+	private connectDatabase() {
 		Logger.info(`Trying to connect to database '${this.config.database}' as '${this.config.user}' at '${this.config.host}'...`);
 
-		this.connection = mysql.createPool(this.config);
 		this.connection.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
 			if (err) {
-				Logger.error(`The server can't connect to the database!`);
-				Logger.error(`err.code: ${err.code}`);
-				Logger.error(`err.errno: ${err.errno}`);
-				Logger.error(`err.fatal: ${err.fatal}`);
-				Logger.error(`err.sql: ${err.sql}`);
-				Logger.error(`err.sqlState: ${err.sqlState}`);
-				Logger.error(`err.sqlMessage: ${err.sqlMessage}`);
-				throw err;
+				Logger.error("The server can't connect to the database!");
+				Logger.error(`CODE: ${err.code} - ERRNO: ${err.errno} - MESSAGE: ${err.sqlMessage}`);
+				Logger.error("Waiting 10 seconds before trying again...");
+				setTimeout(this.connectDatabase, 10000);
 			}
 			else {
 				Logger.info(`Connected to the database successfully.`);
