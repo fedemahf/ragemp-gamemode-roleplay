@@ -60,22 +60,36 @@ class Database {
 	private async createTables(): Promise<void> {
 		let tables = [
 			{
-				name: `users`,
+				name: "user",
 				queries: [
-					"CREATE TABLE `users` (" +
-						"`guid` int(255) NOT NULL," +
-						"`email` varchar(255) NOT NULL," +
-						"`firstName` varchar(255) NOT NULL," +
-						"`lastName` varchar(255) NOT NULL," +
-						"`socialClub` varchar(255) NOT NULL," +
-						"`lang` varchar(3) NOT NULL DEFAULT 'eng'," +
-						"`adminlvl` int(10) NOT NULL DEFAULT '0'," +
-						"`position` text NOT NULL," +
-						"`password` text NOT NULL," +
-						"`salt` text NOT NULL" +
-					") ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-					"ALTER TABLE `users` ADD PRIMARY KEY (`guid`);",
-					"ALTER TABLE `users` MODIFY `guid` int(255) NOT NULL AUTO_INCREMENT;"
+					"CREATE TABLE `user` (" +
+						"`id` int(255) NOT NULL AUTO_INCREMENT," +
+						"`name` varchar(64) NOT NULL," +
+						"`email` varchar(256) NOT NULL," +
+						"`password` varchar(128) NOT NULL," +
+						"`salt` varchar(32) NOT NULL," +
+						"`admin` int(11) NOT NULL DEFAULT 0," +
+						"PRIMARY KEY (`id`)" +
+					") ENGINE=InnoDB DEFAULT CHARSET=utf8"
+				]
+			},
+			{
+				name: "player",
+				queries: [
+					"CREATE TABLE `player` (" +
+						"`id` int(255) NOT NULL AUTO_INCREMENT," +
+						"`user_id` int(255) NOT NULL," +
+						"`firstName` varchar(64) NOT NULL," +
+						"`lastName` varchar(64) NOT NULL," +
+						"`x` float NOT NULL," +
+						"`y` float NOT NULL," +
+						"`z` float NOT NULL," +
+						"`rz` float NOT NULL," +
+						"`dimension` int(11) NOT NULL," +
+						"PRIMARY KEY (`id`)," +
+						"KEY `FK_player_user_id` (`user_id`)," +
+						"CONSTRAINT `FK_player_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)" +
+					") ENGINE=InnoDB DEFAULT CHARSET=utf8"
 				]
 			}
 		];
