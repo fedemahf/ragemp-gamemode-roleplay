@@ -37,13 +37,11 @@ class Register extends Auth {
         }
         else
         {
-            const d: any = await DB.query(`SELECT email FROM users WHERE email = ${DB.escape(email)} LIMIT 1`);
+            const d: any = await DB.query(`SELECT id FROM user WHERE email = ${DB.escape(email)} LIMIT 1`);
 
             if (d[0]) {
                 Browser.showNotification(player, `This email already exists!`, `red`, 4, `Wrong email address`, `error.svg`);
-            }
-            else
-            {
+            } else {
                 Browser.showNotification(player, `You can use this email!`, `green`, 4, `Success`);
                 this.setRegistrationEmailChecked(player, true);
             }
@@ -57,7 +55,7 @@ class Register extends Auth {
         if (!this.isNameValid(data.firstName) || !this.isNameValid(data.lastName)) {
             error = "The name is not valid!";
         } else {
-            const d: any = await DB.query(`SELECT firstName, lastName FROM users WHERE firstName = ${DB.escape(data.firstName)} AND lastName = ${DB.escape(data.lastName)} LIMIT 1`);
+            const d: any = await DB.query(`SELECT id FROM player WHERE firstName = ${DB.escape(data.firstName)} AND lastName = ${DB.escape(data.lastName)} LIMIT 1`);
 
             if (d[0]) {
                 error = "This name already exists!";
@@ -81,9 +79,10 @@ class Register extends Auth {
         } else if (!this.isEmailValid(data.email)) {
             error = "The email is not valid!";
         } else {
-            const result: any = await DB.query(`SELECT email FROM users WHERE email = ${DB.escape(data.email)} OR (firstName = ${DB.escape(data.firstName)} AND lastName = ${DB.escape(data.lastName)}) LIMIT 1`);
+            const result1: any = await DB.query(`SELECT id FROM user WHERE email = ${DB.escape(data.email)} LIMIT 1`);
+            const result2: any = await DB.query(`SELECT id FROM player WHERE firstName = ${DB.escape(data.firstName)} AND lastName = ${DB.escape(data.lastName)} LIMIT 1`);
 
-            if (result[0]) {
+            if (result1[0] || result2[0]) {
                 error = "There was an error creating your account, please try again";
             }
         }
@@ -98,13 +97,14 @@ class Register extends Auth {
     async createAccount(player: PlayerMp, email: string, firstName: string, lastName: string, password: string) {
         const salt = this.generateSalt();
         const pass = this.hashPassword(password, salt);
-        await PlayerSingletone.createUser(player, email, firstName, lastName, pass, salt);
-        Browser.showNotification(player, `Welcome to Los Santos, ${firstName} ${lastName}!`, `green`, 8, `Success`);
-        const obj = {
-            email: email.toLowerCase(),
-            password: password
+        const result = await PlayerSingletone.createUser(player, email, firstName, lastName, pass, salt);
+
+        if (!result) {
+            Browser.showNotification(player, "There was an error creating your account, please try again", `red`, 4, `Error`, `error.svg`);
+        } else {
+            Browser.showNotification(player, `Welcome to Los Santos, ${firstName} ${lastName}!`, `green`, 8, `Success`);
+            player.call("cMisc-CallServerEvent", ["sLogin-Login", JSON.stringify({email: email.toLowerCase(), password: password})]);
         }
-        player.call("cMisc-CallServerEvent", ["sLogin-Login", JSON.stringify(obj)]);
     }
 
     setRegistrationNameAvailable(player: PlayerMp, status: boolean) {

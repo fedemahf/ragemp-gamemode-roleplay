@@ -1,11 +1,11 @@
 interface PlayerMp {
     loggedIn: boolean;
-    guid: number;
-    email: string;
+    id: number;
+    user_id: number;
+    // email: string;
     firstName: string;
     lastName: string;
-    lang: string;
-    adminlvl: number;
+    admin: number;
     dead: boolean;
 
     updateName(): void;
