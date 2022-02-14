@@ -14,22 +14,22 @@ class Database {
 		};
 
 		this.connection = mysql.createPool(this.config);
-		this.connectDatabase();
+		setTimeout(this.connectDatabase, 100, this);
 	}
 
-	private connectDatabase() {
-		Logger.info(`Trying to connect to database '${this.config.database}' as '${this.config.user}' at '${this.config.host}'...`);
+	private connectDatabase(self: Database = this) {
+		Logger.info(`Trying to connect to database '${self.config.database}' as '${self.config.user}' at '${self.config.host}'...`);
 
-		this.connection.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
+		self.connection.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
 			if (err) {
 				Logger.error("The server can't connect to the database!");
 				Logger.error(`CODE: ${err.code} - ERRNO: ${err.errno} - MESSAGE: ${err.sqlMessage}`);
 				Logger.error("Waiting 10 seconds before trying again...");
-				setTimeout(this.connectDatabase, 10000);
+				setTimeout(self.connectDatabase, 10000, self);
 			}
 			else {
-				Logger.info(`Connected to the database successfully.`);
-				this.createTables();
+				Logger.info("Connected to the database successfully.");
+				self.createTables();
 			}
 		});
 	}
