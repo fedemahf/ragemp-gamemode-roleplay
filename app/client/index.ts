@@ -1,6 +1,7 @@
 require('./Options/cBrowser');
 require('./Options/cCamera');
 require('./Options/cMisc');
+require('./NativeUI');
 
 
 // mp.browsers.new('localhost:8080');
