@@ -34,14 +34,26 @@ menu.ItemSelect.on(item => {
 // 	console.log(item.Text, index, value);
 // });
 
+// menu.MenuOpen.on(() => {
+// 	// mp.gui.chat.show(false);
+// 	mp.events.callRemote("LoggerDebug", `menu.MenuOpen.on`);
+// });
+
+menu.MenuClose.on((close: boolean | undefined) => {
+	// mp.gui.chat.show(close ? true : false);
+	mp.gui.chat.show(true);
+	// mp.events.callRemote("LoggerDebug", `menu.MenuClose.on ${close ? true : false}`);
+});
+
 mp.keys.bind(0x71, false, () => {
 	if (menu.Visible) {
         menu.Close();
         // mp.gui.cursor.visible = false;
-        mp.gui.chat.show(true);
+        // mp.gui.chat.show(true);
     } else {
         menu.Open();
         // mp.gui.cursor.visible = false;
-        mp.gui.chat.show(false);
+		// mp.events.callRemote("LoggerDebug", `mp.keys.bind 0x71`);
+		mp.gui.chat.show(false);
     }
 });
