@@ -1,8 +1,7 @@
 {
-  "name": "rpserver",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "ragemp-gamemode-roleplay",
+  "version": "0.1.0",
+  "description": "RAGE Multiplayer roleplay gamemode",
   "dependencies": {
     "@types/mysql": "^2.15.6",
     "@types/node": "^12.0.10",
@@ -21,12 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MarkCavalli/rage-server-start-template.git"
+    "url": "git+https://github.com/fedemahf/ragemp-gamemode-roleplay.git"
   },
-  "author": "https://github.com/MarkCavalli/",
+  "author": "https://github.com/fedemahf/",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MarkCavalli/rage-server-start-template/issues"
+    "url": "https://github.com/fedemahf/ragemp-gamemode-roleplay/issues"
   },
-  "homepage": "https://github.com/MarkCavalli/rage-server-start-template#readme"
+  "homepage": "https://github.com/fedemahf/ragemp-gamemode-roleplay#readme"
 }
