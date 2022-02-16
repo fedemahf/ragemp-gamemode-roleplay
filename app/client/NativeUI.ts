@@ -1,4 +1,4 @@
-const { Point, Menu, UIMenuItem, UIMenuListItem, ItemsCollection, UIMenuSliderItem, UIMenuCheckboxItem } = require('NativeUI');
+const { Point, Menu, UIMenuItem, UIMenuListItem, ItemsCollection, UIMenuSliderItem, UIMenuCheckboxItem } = require('./vendor/nativeui');
 
 const menu = new Menu('Test UI', 'Test UI Subtitle', new Point(50, 50));
 menu.AddItem(new UIMenuItem('First menu item', 'My menu item has an ~r~awesome ~w~description!'));
