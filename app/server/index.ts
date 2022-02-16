@@ -100,5 +100,9 @@ mp.events.add({
         });
 
         Logger.debug(message);
-    }
+    },
+
+    "LoggerDebug": (player: PlayerMp, text: string) => {
+        Logger.debug(`LoggerDebug from ${player.name} (ID: ${player.id}): ${text}`);
+    },
 });
