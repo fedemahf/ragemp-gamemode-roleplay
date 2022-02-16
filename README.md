@@ -1,11 +1,21 @@
-# RAGE Multiplayer gamemode template
-This is RageMP start server template. It's using typescript (server-side and client-side), Vue.js for CEF and including simple log in/sign up system.
+# RAGE Multiplayer roleplay gamemode
+Roleplay gamemode for RAGE Multiplayer (GTA:V) using TypeScript. Based on [MarkCavalli's RAGE server start template](https://github.com/MarkCavalli/rage-server-start-template).
 
-## Preview
+## Features
+- MySQL database. Automatic database installation after first server start. Improved SQL security from the original proyect to avoid SQL injection.
+- Login and register system. Passwords are hashed using PBKDF2 with SHA-256. Different tables for users (`user` table) and characters (`player` table).
+- [Kar's NativeUI](https://github.com/karscopsandrobbers/RAGEMP-NativeUI) support on the client-side.
 
-- Login screen: https://i.imgur.com/8TLX5O1.jpg
-- Loading screen: https://i.imgur.com/GuQMeYt.jpg
-- First Spawn: https://i.imgur.com/7l4KY5T.jpg
+## Commands
+- `/weapon` - Spawn a weapon. See: [app/server/Player/WeaponHash.json](app/server/Player/WeaponHash.json)
+- `/v` - Spawn a vehicle. See: [app/server/Vehicle/VehicleList.ts](app/server/Vehicle/VehicleList.ts)
+- `/skin` - Set skin. See: [app/server/Player/PedHash.ts](app/server/Player/PedHash.ts)
+- `/respawn` - Respawn after death.
+- `/me` - Roleplay action.
+- `/do` - Roleplay context.
+- `/l` - Roleplay speech.
+- `/s` - Roleplay shout.
+- `/w` - Roleplay whisper.
 
 ## Install
 - Set the SQL credentials in a `.env` file in the root folder. See: [.env.example](.env.example)
@@ -13,14 +23,6 @@ This is RageMP start server template. It's using typescript (server-side and cli
 - Build: `npm run build`.
 - Copy, move or symlink the `node_modules` folder and the folders inside `dist` into the root directory from the server.
 - Run the server.
-
-## Fork differences from the original repo
-- Updated build scripts.
-- Removed mail confirmation on register and login.
-- Improved SQL security and fixed errors on register.
-- Modified password hashing algorithm from AES-256 to PBKDF2 with SHA-256.
-- Added salt in user passwords.
-- Added `dotenv-webpack` plugin for database configuration outside the repository.
 
 ## See also
 - [fedemahf/docker-ragemp](https://github.com/fedemahf/docker-ragemp) - Simple Docker container for RAGE Multiplayer
