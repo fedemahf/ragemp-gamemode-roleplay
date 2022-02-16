@@ -21,12 +21,9 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                exclude: '/node_modules/',
-                loader: 'ts-loader',
-                options: {
-                    allowTsInNodeModules: true
-                }
+                use: 'ts-loader',
+                exclude: '/node_modules/'
             },
         ]
-    },
+    }
 };
