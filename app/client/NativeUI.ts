@@ -1,29 +1,29 @@
-const { Point, Menu, UIMenuItem, UIMenuListItem, ItemsCollection, UIMenuSliderItem, UIMenuCheckboxItem } = require('./vendor/nativeui');
+// const { Point, Menu, UIMenuItem, UIMenuListItem, ItemsCollection, UIMenuSliderItem, UIMenuCheckboxItem } = require('./vendor/nativeui');
 
-const menu = new Menu('Test UI', 'Test UI Subtitle', new Point(50, 50));
-menu.AddItem(new UIMenuItem('First menu item', 'My menu item has an ~r~awesome ~w~description!'));
-menu.AddItem(new UIMenuListItem(
+const menu = new NativeUI.Menu('Test UI', 'Test UI Subtitle', new NativeUI.Point(50, 50));
+menu.AddItem(new NativeUI.UIMenuItem('First menu item', 'My menu item has an ~r~awesome ~w~description!'));
+menu.AddItem(new NativeUI.UIMenuListItem(
     "List Item",
     "Fugiat pariatur consectetur ex duis magna nostrud et dolor laboris est do pariatur amet sint.",
-    new ItemsCollection(["Item 1", "Item 2", "Item 3"])
+    new NativeUI.ItemsCollection(["Item 1", "Item 2", "Item 3"])
 ));
-menu.AddItem(new UIMenuSliderItem(
+menu.AddItem(new NativeUI.UIMenuSliderItem(
     "Slider Item",
     ["Fugiat", "pariatur", "consectetur", "ex", "duis", "magna", "nostrud", "et", "dolor", "laboris"],
     5,
     "Fugiat pariatur consectetur ex duis magna nostrud et dolor laboris est do pariatur amet sint.",
     true
 ));
-menu.AddItem(new UIMenuCheckboxItem(
+menu.AddItem(new NativeUI.UIMenuCheckboxItem(
     "Checkbox Item",
     false,
     "Fugiat pariatur consectetur ex duis magna nostrud et dolor laboris est do pariatur amet sint."
 ));
 
 menu.ItemSelect.on(item => {
-    if (item instanceof UIMenuListItem) {
+    if (item instanceof NativeUI.UIMenuListItem) {
         console.log(item.SelectedItem.DisplayText, item.SelectedItem.Data);
-    } else if (item instanceof UIMenuSliderItem) {
+    } else if (item instanceof NativeUI.UIMenuSliderItem) {
         console.log(item.Text, item.Index, item.IndexToItem(item.Index));
     } else {
         console.log(item.Text);

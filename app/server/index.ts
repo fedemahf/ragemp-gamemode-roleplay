@@ -3,6 +3,7 @@ require('./Auth/sRegister');
 require('./Chat');
 require('./Vehicle');
 require("./Player/Weapons");
+require("./Player/CharCreator");
 
 import ChatMisc from './Chat/ChatMisc';
 import Logger from './Options/sLogger';

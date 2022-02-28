@@ -7,11 +7,14 @@ interface PlayerMp {
     lastName: string;
     admin: number;
     dead: boolean;
+    usingCreator: boolean;
 
     updateName(): void;
     isDriver(): boolean;
     teleport(coord: EntityCoord): void;
     setSkin(skinName: string): number;
+    sendToWorld(): void;
+    sendToCreator(): void;
 }
 
 
