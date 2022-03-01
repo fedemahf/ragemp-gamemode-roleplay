@@ -70,6 +70,7 @@ class PlayerSingletone {
             }, 1000); 
 
             player.loggedIn = true;
+            player.call("cMisc-CallServerEvent", ["CharCreator_LoadCharacter"]);
         }
     }
 }

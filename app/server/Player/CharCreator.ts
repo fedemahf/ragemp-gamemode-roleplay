@@ -187,6 +187,10 @@ mp.events.add("creator_Leave", (player) => {
     player.sendToWorld();
 });
 
+mp.events.add("CharCreator_LoadCharacter", (player) => {
+    player.loadCharacter();
+});
+
 mp.events.addCommand("creator", (player) => {
     if (freemodeCharacters.indexOf(player.model) == -1) {
         player.outputChatBox("/creator command is restricted to freemode characters.");
