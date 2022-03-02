@@ -91,7 +91,73 @@ class Database {
 						"CONSTRAINT `FK_player_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)" +
 					") ENGINE=InnoDB DEFAULT CHARSET=utf8"
 				]
-			}
+			},
+            {
+                name: "player_customization",
+                queries: [
+                    "CREATE TABLE `player_customization` (" +
+                        "`user_id` int(255) NOT NULL," +
+                        "`gender` smallint(6) NOT NULL," +
+                        "`parents_father` smallint(6) NOT NULL," +
+                        "`parents_mother` smallint(6) NOT NULL," +
+                        "`parents_similarity` float NOT NULL," +
+                        "`parents_skin_similarity` float NOT NULL," +
+                        "`features_01` float NOT NULL," +
+                        "`features_02` float NOT NULL," +
+                        "`features_03` float NOT NULL," +
+                        "`features_04` float NOT NULL," +
+                        "`features_05` float NOT NULL," +
+                        "`features_06` float NOT NULL," +
+                        "`features_07` float NOT NULL," +
+                        "`features_08` float NOT NULL," +
+                        "`features_09` float NOT NULL," +
+                        "`features_10` float NOT NULL," +
+                        "`features_11` float NOT NULL," +
+                        "`features_12` float NOT NULL," +
+                        "`features_13` float NOT NULL," +
+                        "`features_14` float NOT NULL," +
+                        "`features_15` float NOT NULL," +
+                        "`features_16` float NOT NULL," +
+                        "`features_17` float NOT NULL," +
+                        "`features_18` float NOT NULL," +
+                        "`features_19` float NOT NULL," +
+                        "`features_20` float NOT NULL," +
+                        "`appearance_01_value` smallint(6) NOT NULL," +
+                        "`appearance_01_opacity` float NOT NULL," +
+                        "`appearance_02_value` smallint(6) NOT NULL," +
+                        "`appearance_02_opacity` float NOT NULL," +
+                        "`appearance_03_value` smallint(6) NOT NULL," +
+                        "`appearance_03_opacity` float NOT NULL," +
+                        "`appearance_04_value` smallint(6) NOT NULL," +
+                        "`appearance_04_opacity` float NOT NULL," +
+                        "`appearance_05_value` smallint(6) NOT NULL," +
+                        "`appearance_05_opacity` float NOT NULL," +
+                        "`appearance_06_value` smallint(6) NOT NULL," +
+                        "`appearance_06_opacity` float NOT NULL," +
+                        "`appearance_07_value` smallint(6) NOT NULL," +
+                        "`appearance_07_opacity` float NOT NULL," +
+                        "`appearance_08_value` smallint(6) NOT NULL," +
+                        "`appearance_08_opacity` float NOT NULL," +
+                        "`appearance_09_value` smallint(6) NOT NULL," +
+                        "`appearance_09_opacity` float NOT NULL," +
+                        "`appearance_10_value` smallint(6) NOT NULL," +
+                        "`appearance_10_opacity` float NOT NULL," +
+                        "`appearance_11_value` smallint(6) NOT NULL," +
+                        "`appearance_11_opacity` float NOT NULL," +
+                        "`hair_value` smallint(6) NOT NULL," +
+                        "`hair_color` smallint(6) NOT NULL," +
+                        "`hair_highlight_color` smallint(6) NOT NULL," +
+                        "`eyebrow_color` smallint(6) NOT NULL," +
+                        "`beard_color` smallint(6) NOT NULL," +
+                        "`eye_color` smallint(6) NOT NULL," +
+                        "`blush_color` smallint(6) NOT NULL," +
+                        "`lipstick_color` smallint(6) NOT NULL," +
+                        "`chest_hair_color` smallint(6) NOT NULL," +
+                        "PRIMARY KEY (`user_id`)," +
+                        "CONSTRAINT `FK_player_customization_user_id` FOREIGN KEY (`user_id`) REFERENCES `player` (`user_id`)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
+                ]
+            }
 		];
 
 		for (let table of tables) {
