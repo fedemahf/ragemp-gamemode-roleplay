@@ -1,3 +1,5 @@
+/// <reference path="../../node_modules/@types/ragemp-s/index.d.ts" />
+
 interface PlayerMp {
     loggedIn: boolean;
     // id: number;

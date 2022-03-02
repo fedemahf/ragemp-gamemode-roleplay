@@ -1,3 +1,5 @@
+/// <reference path="../index.d.ts" />
+
 // import * as fs from 'fs';
 import DB from '../Options/sDB';
 
