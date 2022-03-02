@@ -96,7 +96,7 @@ class Database {
                 name: "player_customization",
                 queries: [
                     "CREATE TABLE `player_customization` (" +
-                        "`user_id` int(255) NOT NULL," +
+                        "`player_id` int(255) NOT NULL," +
                         "`gender` smallint(6) NOT NULL," +
                         "`parents_father` smallint(6) NOT NULL," +
                         "`parents_mother` smallint(6) NOT NULL," +
@@ -153,8 +153,8 @@ class Database {
                         "`blush_color` smallint(6) NOT NULL," +
                         "`lipstick_color` smallint(6) NOT NULL," +
                         "`chest_hair_color` smallint(6) NOT NULL," +
-                        "PRIMARY KEY (`user_id`)," +
-                        "CONSTRAINT `FK_player_customization_user_id` FOREIGN KEY (`user_id`) REFERENCES `player` (`user_id`)" +
+                        "PRIMARY KEY (`player_id`)," +
+                        "CONSTRAINT `FK_player_customization_player_id` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`)" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
                 ]
             }
