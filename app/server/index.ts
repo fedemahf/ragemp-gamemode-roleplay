@@ -4,6 +4,7 @@ require('./Chat');
 require('./Vehicle');
 require("./Player/Weapons");
 require("./Player/CharCreator");
+require("./Player/ClothesMenu");
 
 import ChatMisc from './Chat/ChatMisc';
 import Logger from './Options/sLogger';
