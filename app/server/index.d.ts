@@ -1,6 +1,7 @@
 interface PlayerMp {
     loggedIn: boolean;
-    id: number;
+    // id: number;
+    id_sql: number;
     user_id: number;
     // email: string;
     firstName: string;

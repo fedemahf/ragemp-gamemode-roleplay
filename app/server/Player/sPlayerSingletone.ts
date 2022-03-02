@@ -50,7 +50,7 @@ class PlayerSingletone {
             };
 
             player.user_id = user_id;
-            player.id = d[0].id;
+            player.id_sql = d[0].id;
             player.firstName = d[0].firstName;
             player.lastName = d[0].lastName;
 
