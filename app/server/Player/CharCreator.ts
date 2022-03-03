@@ -109,7 +109,7 @@ mp.events.add("playerJoin", (player) => {
     };
 
     player.loadCharacter = async function() {
-        const result: any = await DB.query(`SELECT * FROM player_customization WHERE user_id = '${player.id_sql}'`);
+        const result: any = await DB.query(`SELECT * FROM player_customization WHERE player_id = '${player.id_sql}'`);
 
         if (!result[0]) {
             this.defaultCharacter();
@@ -206,7 +206,7 @@ mp.events.add("playerJoin", (player) => {
     player.saveCharacter = async function() {
         await DB.query(
             "INSERT INTO `player_customization` (" +
-                "`user_id`," +
+                "`player_id`," +
                 "`gender`," +
                 "`parents_father`," +
                 "`parents_mother`," +
