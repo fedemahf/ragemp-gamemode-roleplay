@@ -1,6 +1,7 @@
 // const Data = require("./data");
 import Data from "./data"
-const NativeUI = require('../vendor/nativeui');
+// const NativeUI = require('../vendor/nativeui');
+import * as NativeUI from '../vendor/nativeui';
 
 class CharCreator {
 

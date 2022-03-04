@@ -1046,16 +1046,32 @@ export default class NativeUI {
 	}
 }
 
-exports.Menu = NativeUI;
-exports.UIMenuItem = UIMenuItem;
-exports.UIMenuListItem = UIMenuListItem;
-exports.UIMenuDynamicListItem = UIMenuDynamicListItem;
-exports.UIMenuCheckboxItem = UIMenuCheckboxItem;
-exports.UIMenuSliderItem = UIMenuSliderItem;
-exports.BadgeStyle = BadgeStyle;
-exports.Point = Point;
-exports.Size = Size;
-exports.Color = Color;
-exports.Font = Font;
-exports.ItemsCollection = ItemsCollection;
-exports.ListItem = ListItem;
+// exports.Menu = NativeUI;
+// exports.UIMenuItem = UIMenuItem;
+// exports.UIMenuListItem = UIMenuListItem;
+// exports.UIMenuDynamicListItem = UIMenuDynamicListItem;
+// exports.UIMenuCheckboxItem = UIMenuCheckboxItem;
+// exports.UIMenuSliderItem = UIMenuSliderItem;
+// exports.BadgeStyle = BadgeStyle;
+// exports.Point = Point;
+// exports.Size = Size;
+// exports.Color = Color;
+// exports.Font = Font;
+// exports.ItemsCollection = ItemsCollection;
+// exports.ListItem = ListItem;
+
+export {
+    NativeUI as Menu,
+    UIMenuItem,
+    UIMenuListItem,
+    UIMenuDynamicListItem,
+    UIMenuCheckboxItem,
+    UIMenuSliderItem,
+    BadgeStyle,
+    Point,
+    Size,
+    Color,
+    Font,
+    ItemsCollection,
+    ListItem
+}

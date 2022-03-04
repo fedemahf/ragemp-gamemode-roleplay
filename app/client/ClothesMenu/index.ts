@@ -1,4 +1,5 @@
-const {Menu, UIMenuItem, UIMenuListItem, Point, ItemsCollection} = require('../vendor/nativeui');
+// const {Menu, UIMenuItem, UIMenuListItem, Point, ItemsCollection} = require('../vendor/nativeui');
+import {Menu, UIMenuItem, UIMenuListItem, Point, ItemsCollection} from '../vendor/nativeui';
 
 interface ClothesMenuItem {
     itemTitle: string,
@@ -93,8 +94,8 @@ class ClothesMenu {
         }
     ];
 
-    private mainMenu;
-    private menuList = [];
+    private mainMenu: Menu;
+    private menuList: Array<Menu> = [];
     private player: PlayerMp;
 
     constructor() {
@@ -111,12 +112,12 @@ class ClothesMenu {
     }
 
     private createMenuItem(clothesMenuItem: ClothesMenuItem): void {
-        let itemsDrawable = [];
-        let itemsTextureArray = [];
+        let itemsDrawable: Array<string> = [];
+        let itemsTextureArray: Array<string> = [];
         let numberOfVariations: number;
         let itemsTextureLimit: number;
         let drawableId: number;
-        
+
         if (clothesMenuItem.isProp) {
             numberOfVariations = this.player.getNumberOfPropDrawableVariations(clothesMenuItem.componentOrPropId) + 1;
             drawableId = this.player.getPropIndex(clothesMenuItem.componentOrPropId);
@@ -154,10 +155,11 @@ class ClothesMenu {
                     for (let i = 0; i < itemsTextureLimit; i++) itemsTextureNewArray.push(i.toString());
                     itemMenuTextureList.Collection = new ItemsCollection(itemsTextureNewArray).getListItems();
                     itemMenuTextureList.Index = 0;
-                break
+                break;
         
                 case itemMenuTextureList:
                     mp.events.callRemote(callFunction, clothesMenuItem.componentOrPropId, drawable, texture);
+                break;
             }
         });
 
