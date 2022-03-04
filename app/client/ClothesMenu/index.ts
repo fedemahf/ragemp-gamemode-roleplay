@@ -104,7 +104,6 @@ class ClothesMenu {
         this.menuList.push(this.mainMenu);
         this.mainMenu.Visible = false;
         this.mainMenu.MenuClose.on(this.closeMenu.bind(this));
-        mp.keys.bind(0x71, false, this.toggleMenuOpen.bind(this));
         mp.events.add("toggleClothesMenu", this.toggleMenuOpen.bind(this));
 
         for (let clothesMenuItem of this.listClothesMenuItem) {
