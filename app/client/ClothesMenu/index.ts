@@ -1,4 +1,5 @@
 const NativeUI = require('../vendor/nativeui');
+
 const Menu = NativeUI.Menu;
 const UIMenuItem = NativeUI.UIMenuItem;
 const UIMenuListItem = NativeUI.UIMenuListItem;
@@ -10,46 +11,126 @@ const ItemsCollection = NativeUI.ItemsCollection;
 const Color = NativeUI.Color;
 const ListItem = NativeUI.ListItem;
 
-let player = mp.players.local;
+const player = mp.players.local;
 
-let todosMenus = [];
-let menuClothesItem = [
-    new UIMenuItem("Masks", "Select your mask."),
-    new UIMenuItem("Hats", "Select your hat."),
-    new UIMenuItem("Jackets", "Select your jacket."),
-    new UIMenuItem("Shirts", "Select your shirt."),
-    new UIMenuItem("Legs", "Select your pant."),
-    new UIMenuItem("Shoes", "Select your shoes."),
-    new UIMenuItem("Hands", "Select your hands."),
-    new UIMenuItem("Glasses", "Select your glasses."),
-    new UIMenuItem("Acessories", "Select your acessories."),
-    new UIMenuItem("Bags", "Select your bag.")
-];
-
-let menuRoupas = new Menu("Clothes", "", new Point(50, 50));
-
-for (let i = 0; i < menuClothesItem.length; ++i) {
-    menuRoupas.AddItem(menuClothesItem[i]);
+interface ClothesMenuItem {
+    itemTitle: string,
+    itemDescription: string,
+    itemVariationTitle: string,
+    itemVariationDescription: string,
+    componentOrPropId: number,
+    isProp: boolean
 }
 
-menuRoupas.Visible = false;
-todosMenus.push(menuRoupas);
+const listClothesMenuItem: Array<ClothesMenuItem> = [
+    {
+        itemTitle: "Masks",
+        itemDescription: "Select your mask.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your mask's color.",
+        componentOrPropId: 1,
+        isProp: false
+    },
+    {
+        itemTitle: "Hats",
+        itemDescription: "Select your hat.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your hat's color.",
+        componentOrPropId: 0,
+        isProp: true
+    },
+    {
+        itemTitle: "Jackets",
+        itemDescription: "Select your jacket.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your jacket's color.",
+        componentOrPropId: 11,
+        isProp: false
+    },
+    {
+        itemTitle: "Shirts",
+        itemDescription: "Select your shirt.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your shirt's color.",
+        componentOrPropId: 8,
+        isProp: false
+    },
+    {
+        itemTitle: "Pants",
+        itemDescription: "Select your pants.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your pants' color.",
+        componentOrPropId: 4,
+        isProp: false
+    },
+    {
+        itemTitle: "Shoes",
+        itemDescription: "Select your shoes.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your shoes' color.",
+        componentOrPropId: 6,
+        isProp: false
+    },
+    {
+        itemTitle: "Hands",
+        itemDescription: "Select your hands.",
+        itemVariationTitle: "Variation",
+        itemVariationDescription: "Select your hands' variation.",
+        componentOrPropId: 3,
+        isProp: false
+    },
+    {
+        itemTitle: "Glasses",
+        itemDescription: "Select your glasses.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your glasses' variation.",
+        componentOrPropId: 1,
+        isProp: true
+    },
+    {
+        itemTitle: "Acessories",
+        itemDescription: "Select your acessories.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your acessories' color.",
+        componentOrPropId: 7,
+        isProp: false
+    },
+    {
+        itemTitle: "Bags",
+        itemDescription: "Select your bags.",
+        itemVariationTitle: "Color",
+        itemVariationDescription: "Select your bags' color.",
+        componentOrPropId: 5,
+        isProp: false
+    }
+];
 
-function createMenuItem(itemTitle: string, itemDescription: string, colorItem: string, colorDescription: string, componentOrPropId: number, isProp: boolean) {
+let menuList = [];
+let mainMenu = new Menu("Clothes", "", new Point(50, 50));
+menuList.push(mainMenu);
+mainMenu.Visible = false;
+mainMenu.MenuClose.on(closeMenu);
+mp.keys.bind(0x71, false, toggleMenuOpen);
+
+for (let clothesMenuItem of listClothesMenuItem) {
+    createMenuItem(clothesMenuItem);
+}
+
+function createMenuItem(clothesMenuItem: ClothesMenuItem): void {
     let itemsDrawable = [];
     let itemsTextureArray = [];
     let numberOfVariations: number;
     let itemsTextureLimit: number;
     let drawableId: number;
     
-    if (isProp) {
-        numberOfVariations = player.getNumberOfPropDrawableVariations(componentOrPropId) + 1;
-        drawableId = player.getPropIndex(componentOrPropId);
-        itemsTextureLimit = player.getNumberOfPropTextureVariations(componentOrPropId, drawableId) + 1;
+    if (clothesMenuItem.isProp) {
+        numberOfVariations = player.getNumberOfPropDrawableVariations(clothesMenuItem.componentOrPropId) + 1;
+        drawableId = player.getPropIndex(clothesMenuItem.componentOrPropId);
+        itemsTextureLimit = player.getNumberOfPropTextureVariations(clothesMenuItem.componentOrPropId, drawableId) + 1;
     } else {
-        numberOfVariations = player.getNumberOfDrawableVariations(componentOrPropId) + 1;
-        drawableId = player.getDrawableVariation(componentOrPropId);
-        itemsTextureLimit = player.getNumberOfTextureVariations(componentOrPropId, drawableId) + 1;
+        numberOfVariations = player.getNumberOfDrawableVariations(clothesMenuItem.componentOrPropId) + 1;
+        drawableId = player.getDrawableVariation(clothesMenuItem.componentOrPropId);
+        itemsTextureLimit = player.getNumberOfTextureVariations(clothesMenuItem.componentOrPropId, drawableId) + 1;
     }
 
     for (let i = 0; i < numberOfVariations; i++) {
@@ -60,21 +141,21 @@ function createMenuItem(itemTitle: string, itemDescription: string, colorItem: s
         itemsTextureArray.push(i.toString());
     }
 
-    const result = new Menu(itemTitle, "", new Point(50, 50));
-    let itemMenuList = new UIMenuListItem(itemTitle, itemDescription, new ItemsCollection(itemsDrawable), drawableId);
-    let itemMenuTextureList = new UIMenuListItem(colorItem, colorDescription, new ItemsCollection(itemsTextureArray), (isProp ? player.getPropTextureIndex(componentOrPropId) : player.getTextureVariation(componentOrPropId)));
-    result.AddItem(itemMenuList);
-    result.AddItem(itemMenuTextureList);
-    result.Visible = false;
+    const menuItem = new Menu(clothesMenuItem.itemTitle, "", new Point(50, 50));
+    let itemMenuList = new UIMenuListItem(clothesMenuItem.itemTitle, clothesMenuItem.itemDescription, new ItemsCollection(itemsDrawable), drawableId);
+    let itemMenuTextureList = new UIMenuListItem(clothesMenuItem.itemVariationTitle, clothesMenuItem.itemVariationDescription, new ItemsCollection(itemsTextureArray), (clothesMenuItem.isProp ? player.getPropTextureIndex(clothesMenuItem.componentOrPropId) : player.getTextureVariation(clothesMenuItem.componentOrPropId)));
+    menuItem.AddItem(itemMenuList);
+    menuItem.AddItem(itemMenuTextureList);
+    menuItem.Visible = false;
 
-    result.ListChange.on((item, listIndex) => {
+    menuItem.ListChange.on((item, listIndex) => {
         let drawable: number = parseInt(itemMenuList.SelectedItem.DisplayText);
         let texture: number = parseInt(itemMenuTextureList.SelectedItem.DisplayText);
-        let callFunction: string = (isProp ? "setProp" : "setClothes");
+        let callFunction: string = (clothesMenuItem.isProp ? "setProp" : "setClothes");
 
         switch (item) {
             case itemMenuList:
-                mp.events.callRemote(callFunction, componentOrPropId, drawable, 0);
+                mp.events.callRemote(callFunction, clothesMenuItem.componentOrPropId, drawable, 0);
                 let itemsTextureNewArray = [];
                 for (let i = 0; i < itemsTextureLimit; i++) itemsTextureNewArray.push(i.toString());
                 itemMenuTextureList.Collection = new NativeUI.ItemsCollection(itemsTextureNewArray).getListItems();
@@ -82,68 +163,30 @@ function createMenuItem(itemTitle: string, itemDescription: string, colorItem: s
             break
     
             case itemMenuTextureList:
-                mp.events.callRemote(callFunction, componentOrPropId, drawable, texture);
+                mp.events.callRemote(callFunction, clothesMenuItem.componentOrPropId, drawable, texture);
         }
     });
 
-    return result;
+    const menuItemGeneral = new UIMenuItem(clothesMenuItem.itemTitle, clothesMenuItem.itemDescription);
+    mainMenu.AddItem(menuItemGeneral);
+    mainMenu.BindMenuToItem(menuItem, menuItemGeneral);
+    menuList.push(menuItem);
 }
 
-const menuClothesMask = createMenuItem("Masks", "Select your mask.", "Color", "Select your mask's color.", 1, false);
-const menuClothesHats = createMenuItem("Hats", "Select your hat.", "Color", "Select your hat's color.", 0, true);
-const menuClothesJackets = createMenuItem("Jackets", "Select your jacket.", "Color", "Select your jacket's color.", 11, false);
-const menuClothesShirts = createMenuItem("Shirts", "Select your shirt.", "Color", "Select your shirt's color.", 8, false);
-const menuClothesPants = createMenuItem("Pants", "Select your pants.", "Color", "Select your pants' color.", 4, false);
-const menuClothesShoes = createMenuItem("Shoes", "Select your shoes.", "Color", "Select your shoes' color.", 6, false);
-const menuClothesHands = createMenuItem("Hands", "Select your hands.", "Variation", "Select your hands' variation.", 3, false);
-const menuClothesGlasses = createMenuItem("Glasses", "Select your glasses.", "Color", "Select your glasses' variation.", 1, true);
-const menuClothesAccesories = createMenuItem("Acessories", "Select your acessories.", "Color", "Select your acessories' color.", 7, false);
-const menuClothesBags = createMenuItem("Bags", "Select your bags.", "Color", "Select your bags' color.", 5, false);
-
-todosMenus.push(
-    menuClothesMask,
-    menuClothesHats,
-    menuClothesJackets,
-    menuClothesShirts,
-    menuClothesPants,
-    menuClothesShoes,
-    menuClothesHands,
-    menuClothesGlasses,
-    menuClothesAccesories,
-    menuClothesBags
-);
-
-menuRoupas.BindMenuToItem(menuClothesMask,          menuClothesItem[0]);
-menuRoupas.BindMenuToItem(menuClothesHats,          menuClothesItem[1]);
-menuRoupas.BindMenuToItem(menuClothesJackets,       menuClothesItem[2]);
-menuRoupas.BindMenuToItem(menuClothesShirts,        menuClothesItem[3]);
-menuRoupas.BindMenuToItem(menuClothesPants,         menuClothesItem[4]);
-menuRoupas.BindMenuToItem(menuClothesShoes,         menuClothesItem[5]);
-menuRoupas.BindMenuToItem(menuClothesHands,         menuClothesItem[6]);
-menuRoupas.BindMenuToItem(menuClothesGlasses,       menuClothesItem[7]);
-menuRoupas.BindMenuToItem(menuClothesAccesories,    menuClothesItem[8]);
-menuRoupas.BindMenuToItem(menuClothesBags,          menuClothesItem[9]);
-
-mp.keys.bind(0x71, false, toggleMenuOpen);
-menuRoupas.MenuClose.on(closeMenu);
-
-function toggleMenuOpen() {
+function toggleMenuOpen(): void {
     if (isAnyMenuOpen()) {
-        for (let menu of todosMenus) {
+        for (let menu of menuList) {
             menu.Close();
         }
-        // todosMenus.forEach(function(element, index, array) {
-        //     element.Close()
-        // });
     } else {
-        menuRoupas.Open();
+        mainMenu.Open();
         mp.gui.chat.show(false);
         mp.gui.cursor.visible = false;
     }
 }
 
 function isAnyMenuOpen(): boolean {
-    for (let menu of todosMenus) {
+    for (let menu of menuList) {
         if (menu.Visible) {
             return true;
         }
@@ -152,7 +195,7 @@ function isAnyMenuOpen(): boolean {
     return false;
 }
 
-function closeMenu() {
+function closeMenu(): void {
     mp.gui.chat.show(true);
     mp.gui.cursor.visible = false;
 }
