@@ -204,6 +204,8 @@ mp.events.add("playerJoin", (player) => {
     };
 
     player.saveCharacter = async function() {
+        await DB.query(`DELETE FROM player_customization WHERE player_id = '${player.id_sql}'`);
+
         await DB.query(
             "INSERT INTO `player_customization` (" +
                 "`player_id`," +
@@ -353,7 +355,8 @@ mp.events.add("playerJoin", (player) => {
         player.call("toggleCreator", [false]);
     };
 
-    player.loadCharacter();
+    player.defaultCharacter();
+    // player.loadCharacter();
 });
 
 mp.events.add("creator_GenderChange", (player, gender) => {
