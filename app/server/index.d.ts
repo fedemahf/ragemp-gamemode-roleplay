@@ -11,6 +11,8 @@ interface PlayerMp {
     admin: number;
     dead: boolean;
     usingCreator: boolean;
+    clothes: Array<ClothesInfo>;
+    props: Array<PropsInfo>;
 
     updateName(): void;
     isDriver(): boolean;
@@ -20,10 +22,15 @@ interface PlayerMp {
     sendToCreator(): void;
 }
 
-
-
 interface EntityCoord {
     pos: Vector3Mp;
     rot: number;
     dim: number;
 }
+
+interface ClothesInfo {
+    drawable: number,
+    texture: number
+}
+
+type PropsInfo = ClothesInfo;

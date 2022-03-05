@@ -470,6 +470,7 @@ class CharCreator {
                 this.localPlayer.freezePosition(false);
                 this.localPlayer.setDefaultComponentVariation();
                 this.localPlayer.setComponentVariation(2, Data.hairList[this.currentGender][this.hairItem.Index].ID, 0, 2);
+                mp.events.callRemote("ClothesMenu_Reload");
 
                 mp.game.cam.renderScriptCams(false, false, 0, true, false);
             }
