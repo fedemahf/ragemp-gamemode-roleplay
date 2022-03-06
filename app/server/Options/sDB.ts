@@ -157,6 +157,20 @@ class Database {
                         "CONSTRAINT `FK_player_customization_player_id` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`)" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
                 ]
+            },
+            {
+                name: "player_clothes",
+                queries: [
+                    "CREATE TABLE `player_clothes` (" +
+                        "`player_id` int(255) NOT NULL," +
+                        "`component` int(11) NOT NULL," +
+                        "`drawable` int(11) NOT NULL," +
+                        "`texture` int(11) NOT NULL," +
+                        "`is_prop` tinyint(1) NOT NULL," +
+                        "KEY `player_id` (`player_id`)," +
+                        "CONSTRAINT `FK_player_clothes_player_id` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
+                ]
             }
 		];
 
