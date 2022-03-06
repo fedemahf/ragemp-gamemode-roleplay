@@ -12,86 +12,16 @@ interface ClothesMenuItem {
 
 class ClothesMenu {
     private listClothesMenuItem: Array<ClothesMenuItem> = [
-        {
-            itemTitle: "Masks",
-            itemDescription: "Select your mask.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your mask's color.",
-            componentOrPropId: 1,
-            isProp: false
-        },
-        {
-            itemTitle: "Hats",
-            itemDescription: "Select your hat.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your hat's color.",
-            componentOrPropId: 0,
-            isProp: true
-        },
-        {
-            itemTitle: "Jackets",
-            itemDescription: "Select your jacket.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your jacket's color.",
-            componentOrPropId: 11,
-            isProp: false
-        },
-        {
-            itemTitle: "Shirts",
-            itemDescription: "Select your shirt.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your shirt's color.",
-            componentOrPropId: 8,
-            isProp: false
-        },
-        {
-            itemTitle: "Pants",
-            itemDescription: "Select your pants.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your pants' color.",
-            componentOrPropId: 4,
-            isProp: false
-        },
-        {
-            itemTitle: "Shoes",
-            itemDescription: "Select your shoes.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your shoes' color.",
-            componentOrPropId: 6,
-            isProp: false
-        },
-        {
-            itemTitle: "Hands",
-            itemDescription: "Select your hands.",
-            itemVariationTitle: "Variation",
-            itemVariationDescription: "Select your hands' variation.",
-            componentOrPropId: 3,
-            isProp: false
-        },
-        {
-            itemTitle: "Glasses",
-            itemDescription: "Select your glasses.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your glasses' variation.",
-            componentOrPropId: 1,
-            isProp: true
-        },
-        {
-            itemTitle: "Acessories",
-            itemDescription: "Select your acessories.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your acessories' color.",
-            componentOrPropId: 7,
-            isProp: false
-        },
-        {
-            itemTitle: "Bags",
-            itemDescription: "Select your bags.",
-            itemVariationTitle: "Color",
-            itemVariationDescription: "Select your bags' color.",
-            componentOrPropId: 5,
-            isProp: false
-        }
+        this.createMenuItemObject("Masks", "Select your mask.", "Color", "Select your mask's color.", 1, false),
+        this.createMenuItemObject("Hats", "Select your hat.", "Color", "Select your hat's color.", 0, true),
+        this.createMenuItemObject("Jackets", "Select your jacket.", "Color", "Select your jacket's color.", 11, false),
+        this.createMenuItemObject("Shirts", "Select your shirt.", "Color", "Select your shirt's color.", 8, false),
+        this.createMenuItemObject("Pants", "Select your pants.", "Color", "Select your pants' color.", 4, false),
+        this.createMenuItemObject("Shoes", "Select your shoes.", "Color", "Select your shoes' color.", 6, false),
+        this.createMenuItemObject("Hands", "Select your hands.", "Variation", "Select your hands' variation.", 3, false),
+        this.createMenuItemObject("Glasses", "Select your glasses.", "Color", "Select your glasses' variation.", 1, true),
+        this.createMenuItemObject("Acessories", "Select your acessories.", "Color", "Select your acessories' color.", 7, false),
+        this.createMenuItemObject("Bags", "Select your bags.", "Color", "Select your bags' color.", 5, false)
     ];
 
     private mainMenu: Menu;
@@ -108,6 +38,24 @@ class ClothesMenu {
 
         for (let clothesMenuItem of this.listClothesMenuItem) {
             this.createMenuItem(clothesMenuItem);
+        }
+    }
+
+    private createMenuItemObject(
+        itemTitle: string,
+        itemDescription: string,
+        itemVariationTitle: string,
+        itemVariationDescription: string,
+        componentOrPropId: number,
+        isProp: boolean
+    ): ClothesMenuItem {
+        return {
+            itemTitle: itemTitle,
+            itemDescription: itemDescription,
+            itemVariationTitle: itemVariationTitle,
+            itemVariationDescription: itemVariationDescription,
+            componentOrPropId: componentOrPropId,
+            isProp: isProp
         }
     }
 
