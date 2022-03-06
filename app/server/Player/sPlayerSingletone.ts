@@ -71,6 +71,7 @@ class PlayerSingletone {
 
             player.loggedIn = true;
             player.call("cMisc-CallServerEvent", ["CharCreator_LoadCharacter"]);
+            player.call("cMisc-CallServerEvent", ["ClothesMenu_Load"]);
         }
     }
 }

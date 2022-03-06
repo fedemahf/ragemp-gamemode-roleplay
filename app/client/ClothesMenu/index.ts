@@ -122,6 +122,8 @@ class ClothesMenu {
             for (let menu of this.menuList) {
                 menu.Close();
             }
+
+            mp.events.callRemote("ClothesMenu_Exit");
         } else {
             this.mainMenu.Open();
             mp.gui.chat.show(false);
@@ -142,6 +144,7 @@ class ClothesMenu {
     private closeMenu(): void {
         mp.gui.chat.show(true);
         mp.gui.cursor.visible = false;
+        mp.events.callRemote("ClothesMenu_Exit");
     }
 }
 
