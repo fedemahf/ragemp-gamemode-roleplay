@@ -11,11 +11,9 @@ Roleplay gamemode for RAGE Multiplayer (GTA:V) using TypeScript. Based on [MarkC
 - `/v` - Spawn a vehicle. See: [app/server/Vehicle/VehicleList.ts](app/server/Vehicle/VehicleList.ts)
 - `/skin` - Set skin. See: [app/server/Player/PedHash.ts](app/server/Player/PedHash.ts)
 - `/respawn` - Respawn after death.
-- `/me` - Roleplay action.
-- `/do` - Roleplay context.
-- `/l` - Roleplay speech.
-- `/s` - Roleplay shout.
-- `/w` - Roleplay whisper.
+- `/creator` - Customize character.
+- `/clothes` - Customize clothes.
+- Roleplay commands: `/me`, `/do/`, `/l`, `/s`, `/w`.
 
 ## Install
 - Set the SQL credentials in a `.env` file in the root folder. See: [.env.example](.env.example)
