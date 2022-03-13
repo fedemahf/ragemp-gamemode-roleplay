@@ -1,5 +1,6 @@
 import * as mysql from 'mysql';
 import Logger from './sLogger';
+import VehicleSingleton from '../Vehicle';
 
 class Database {
 	private connection: mysql.Pool;
@@ -20,7 +21,7 @@ class Database {
 	private connectDatabase(self: Database = this) {
 		Logger.info(`Trying to connect to database '${self.config.database}' as '${self.config.user}' at '${self.config.host}'...`);
 
-		self.connection.getConnection((err: mysql.MysqlError, connection: mysql.PoolConnection) => {
+		self.connection.getConnection(async (err: mysql.MysqlError, connection: mysql.PoolConnection) => {
 			if (err) {
 				Logger.error("The server can't connect to the database!");
 				Logger.error(`CODE: ${err.code} - ERRNO: ${err.errno} - MESSAGE: ${err.sqlMessage}`);
@@ -29,7 +30,8 @@ class Database {
 			}
 			else {
 				Logger.info("Connected to the database successfully.");
-				self.createTables();
+				await self.createTables();
+                await VehicleSingleton.loadVehicles()
 			}
 		});
 	}
@@ -170,6 +172,22 @@ class Database {
                         "KEY `player_id` (`player_id`)," +
                         "CONSTRAINT `FK_player_clothes_player_id` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`)" +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8"
+                ]
+            },
+            {
+                name: 'vehicle',
+                queries: [
+                    `CREATE TABLE vehicle (
+                        id int(11) NOT NULL AUTO_INCREMENT,
+                        model int(11) NOT NULL,
+                        player_id int(11) NOT NULL DEFAULT -1,
+                        pos_x float NOT NULL,
+                        pos_y float NOT NULL,
+                        pos_z float NOT NULL,
+                        pos_rz float NOT NULL,
+                        dimension float NOT NULL,
+                        PRIMARY KEY (id)
+                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8`
                 ]
             }
 		];
