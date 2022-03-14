@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const mp: any;
+
 export const useRageMpStore = defineStore({
   id: "ragemp",
   actions: {

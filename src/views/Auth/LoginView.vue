@@ -34,6 +34,7 @@
 import { defineComponent } from "vue";
 import { useNotificationsStore } from "@/stores/Notifications";
 import type { AppNotification } from "@/stores/Notifications";
+import { useRageMpStore } from "@/stores/RageMp";
 
 export default defineComponent({
   data: function () {
@@ -48,7 +49,7 @@ export default defineComponent({
         email: this.email.toLowerCase(),
         password: this.password,
       };
-      mp.trigger("cMisc-CallServerEvent", "sLogin-Login", JSON.stringify(obj));
+      useRageMpStore().callServerEvent("sLogin-Login", JSON.stringify(obj));
     },
 
     addNotification(notification: AppNotification) {

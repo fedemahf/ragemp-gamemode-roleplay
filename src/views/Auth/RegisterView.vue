@@ -87,6 +87,7 @@ import { defineComponent } from "vue";
 import { useNotificationsStore } from "@/stores/Notifications";
 import type { AppNotification } from "@/stores/Notifications";
 import { useRegisterStore } from "@/stores/Register";
+import { useRageMpStore } from "@/stores/RageMp";
 
 export default defineComponent({
   data() {
@@ -104,8 +105,7 @@ export default defineComponent({
   props: ["nameAvailable", "emailChecked"],
   methods: {
     checkEmail() {
-      mp.trigger(
-        "cMisc-CallServerEvent",
+      useRageMpStore().callServerEvent(
         "sRegister-CheckEmail",
         this.email.toLowerCase()
       );
@@ -135,8 +135,8 @@ export default defineComponent({
           firstName: this.firstName,
           lastName: this.lastName,
         };
-        mp.trigger(
-          "cMisc-CallServerEvent",
+
+        useRageMpStore().callServerEvent(
           "sRegister-CheckName",
           JSON.stringify(obj)
         );
@@ -154,8 +154,8 @@ export default defineComponent({
         lastName: this.lastName,
         password: this.password,
       };
-      mp.trigger(
-        "cMisc-CallServerEvent",
+
+      useRageMpStore().callServerEvent(
         "sRegister-CreateAccount",
         JSON.stringify(obj)
       );
