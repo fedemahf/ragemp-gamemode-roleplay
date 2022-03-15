@@ -84,6 +84,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "pinia";
 import { useNotificationsStore } from "@/stores/Notifications";
 import type { AppNotification } from "@/stores/Notifications";
 import { useRegisterStore } from "@/stores/Register";
@@ -102,7 +103,10 @@ export default defineComponent({
       passwordChecked: false,
     };
   },
-  props: ["nameAvailable", "emailChecked"],
+  // props: ["nameAvailable", "emailChecked"],
+  computed: {
+    ...mapState(useRegisterStore, ["nameAvailable", "emailChecked"]),
+  },
   methods: {
     checkEmail() {
       useRageMpStore().callServerEvent(
