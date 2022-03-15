@@ -2,6 +2,7 @@ import { useNotificationsStore } from './stores/Notifications'
 import { useLoadingStore } from './stores/Loading'
 import { useRegisterStore } from './stores/Register'
 import type { AppNotification } from './stores/Notifications'
+import router from './router'
 
 // avoid tsc errors using globalThis.App
 declare global {
@@ -27,6 +28,11 @@ globalThis.App = {
   Notifications: {
     addNotification: (notification: AppNotification) => {
       useNotificationsStore().addNotification(notification)
+    }
+  },
+  Router: {
+    push: (to: string) => {
+      router.push(to)
     }
   }
 }
