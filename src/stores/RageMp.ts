@@ -7,7 +7,7 @@ export const useRageMpStore = defineStore({
   id: "ragemp",
   actions: {
     callServerEvent(event: string, data: string) {
-      if (mp !== undefined) {
+      if (typeof mp !== "undefined") {
         mp.trigger("cMisc-CallServerEvent", event, data);
       } else {
         console.log(
