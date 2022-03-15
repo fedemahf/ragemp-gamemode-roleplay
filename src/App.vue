@@ -1,16 +1,16 @@
 <template>
   <b id="app">
     <router-view v-slot="{ Component }">
-      <transition name="fade">
+      <Transition name="fade" mode="out-in">
         <component :is="Component" />
-      </transition>
+      </Transition>
     </router-view>
     <!-- <transition name="fade">
       <router-view />
     </transition> -->
-    <transition name="fade">
+    <Transition name="fade">
       <Loading />
-    </transition>
+    </Transition>
     <Notifications />
   </b>
 </template>
@@ -43,7 +43,7 @@ export default {
 <style>
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
   opacity: 0;
