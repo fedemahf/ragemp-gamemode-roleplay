@@ -2,8 +2,7 @@ class BrowserSingletone {
 	browser: BrowserMp;
 
 	constructor() {
-		this.browser = mp.browsers.new('package://cef/index.html#');
-		
+		this.browser = mp.browsers.new('package://cef/');
 
 		mp.events.add({
 			"cBrowser-SetUrl" : (url: string, enableCursor: boolean) => {
@@ -17,7 +16,7 @@ class BrowserSingletone {
 	}
 
 	setUrl(url: string, enableCursor: boolean) {
-		const path = `app.$router.push('${url}');`;
+		const path = `App.Router.push('${url}');`;
 		this.setInteractState(enableCursor);
 		this.pasteJS(path);
 	}
