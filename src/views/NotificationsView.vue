@@ -15,28 +15,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import Notification from "@/components/NotificationComponent.vue";
-import { useNotificationsStore } from "@/stores/Notifications";
+import { defineComponent } from 'vue'
+import Notification from '@/components/NotificationComponent.vue'
+import { useNotificationsStore } from '@/stores/Notifications'
 
 export default defineComponent({
   data() {
-    return {};
+    return {}
   },
   methods: {
     removeNotification(id: number) {
-      useNotificationsStore().removeNotification(id);
-    },
+      useNotificationsStore().removeNotification(id)
+    }
   },
   components: {
-    Notification,
+    Notification
   },
   computed: {
     notifications() {
-      return useNotificationsStore().notificationsList;
-    },
-  },
-});
+      return useNotificationsStore().notificationsList
+    }
+  }
+})
 </script>
 
 <style scoped>

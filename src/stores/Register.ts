@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 
 export const useRegisterStore = defineStore({
-  id: "register",
+  id: 'register',
   state: () => ({
     nameAvailable: false,
-    emailChecked: false,
-  }),
-});
+    emailChecked: false
+  })
+})

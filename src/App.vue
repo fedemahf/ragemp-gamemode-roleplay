@@ -16,28 +16,28 @@
 </template>
 
 <script lang="ts">
-import "@/assets/css/index.scss";
-import Notifications from "@/views/NotificationsView.vue";
-import Loading from "@/views/LoadingView.vue";
-import { useLoadingStore } from "@/stores/Loading";
-import { useNotificationsStore } from "@/stores/Notifications";
-import type { AppNotification } from "@/stores/Notifications";
+import '@/assets/css/index.scss'
+import Notifications from '@/views/NotificationsView.vue'
+import Loading from '@/views/LoadingView.vue'
+import { useLoadingStore } from '@/stores/Loading'
+import { useNotificationsStore } from '@/stores/Notifications'
+import type { AppNotification } from '@/stores/Notifications'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Notifications,
-    Loading,
+    Loading
   },
   methods: {
     showLoading(status: boolean) {
-      return useLoadingStore().showLoading(status);
+      return useLoadingStore().showLoading(status)
     },
     addNotification(notification: AppNotification) {
-      return useNotificationsStore().addNotification(notification);
-    },
-  },
-};
+      return useNotificationsStore().addNotification(notification)
+    }
+  }
+}
 </script>
 
 <style>

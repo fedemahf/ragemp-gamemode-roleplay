@@ -13,20 +13,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
     text: { type: String, required: true },
-    theme: { type: String, default: "white" },
-    title: { type: String, default: "" },
-    img: { type: String, default: "info.svg" },
+    theme: { type: String, default: 'white' },
+    title: { type: String, default: '' },
+    img: { type: String, default: 'info.svg' }
   },
   computed: {
     style(): string {
-      return `-webkit-mask-image: url('img/icons/${this.img}');`;
-    },
+      return `-webkit-mask-image: url('img/icons/${this.img}');`
+    }
   },
-  emits: ["click"],
-});
+  emits: ['click']
+})
 </script>

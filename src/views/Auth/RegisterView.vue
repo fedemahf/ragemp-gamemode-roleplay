@@ -83,45 +83,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { mapState } from "pinia";
-import { useNotificationsStore } from "@/stores/Notifications";
-import type { AppNotification } from "@/stores/Notifications";
-import { useRegisterStore } from "@/stores/Register";
-import { useRageMpStore } from "@/stores/RageMp";
+import { defineComponent } from 'vue'
+import { mapState } from 'pinia'
+import { useNotificationsStore } from '@/stores/Notifications'
+import type { AppNotification } from '@/stores/Notifications'
+import { useRegisterStore } from '@/stores/Register'
+import { useRageMpStore } from '@/stores/RageMp'
 
 export default defineComponent({
   data() {
     return {
-      email: "",
+      email: '',
 
-      firstName: "",
-      lastName: "",
+      firstName: '',
+      lastName: '',
 
-      password: "",
-      passwordConfirm: "",
-      passwordChecked: false,
-    };
+      password: '',
+      passwordConfirm: '',
+      passwordChecked: false
+    }
   },
   // props: ["nameAvailable", "emailChecked"],
   computed: {
-    ...mapState(useRegisterStore, ["nameAvailable", "emailChecked"]),
+    ...mapState(useRegisterStore, ['nameAvailable', 'emailChecked'])
   },
   methods: {
     checkEmail() {
       useRageMpStore().callServerEvent(
-        "sRegister-CheckEmail",
+        'sRegister-CheckEmail',
         this.email.toLowerCase()
-      );
+      )
     },
 
     resetCheckedName: function () {
-      useRegisterStore().nameAvailable = false;
+      useRegisterStore().nameAvailable = false
       // appData.views.Register.nameAvailable = false;
     },
 
     resetCheckedEmail: function () {
-      useRegisterStore().emailChecked = false;
+      useRegisterStore().emailChecked = false
       // appData.views.Register.emailChecked = false;
     },
 
@@ -132,23 +132,23 @@ export default defineComponent({
           text: `You can't use empty name!`,
           theme: `red`,
           title: `Empty name`,
-          img: "error.svg",
-        });
+          img: 'error.svg'
+        })
       } else {
         const obj = {
           firstName: this.firstName,
-          lastName: this.lastName,
-        };
+          lastName: this.lastName
+        }
 
         useRageMpStore().callServerEvent(
-          "sRegister-CheckName",
+          'sRegister-CheckName',
           JSON.stringify(obj)
-        );
+        )
       }
     },
 
     verifyPassword() {
-      this.passwordChecked = this.password === this.passwordConfirm;
+      this.passwordChecked = this.password === this.passwordConfirm
     },
 
     createAccount() {
@@ -156,20 +156,20 @@ export default defineComponent({
         email: this.email.toLowerCase(),
         firstName: this.firstName,
         lastName: this.lastName,
-        password: this.password,
-      };
+        password: this.password
+      }
 
       useRageMpStore().callServerEvent(
-        "sRegister-CreateAccount",
+        'sRegister-CreateAccount',
         JSON.stringify(obj)
-      );
+      )
     },
 
     addNotification(notification: AppNotification) {
-      return useNotificationsStore().addNotification(notification);
-    },
-  },
-});
+      return useNotificationsStore().addNotification(notification)
+    }
+  }
+})
 </script>
 
 <style scoped>

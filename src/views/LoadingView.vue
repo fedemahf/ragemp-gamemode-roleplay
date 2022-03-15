@@ -8,16 +8,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useLoadingStore } from "@/stores/Loading";
+import { defineComponent } from 'vue'
+import { useLoadingStore } from '@/stores/Loading'
 
 export default defineComponent({
   computed: {
     show() {
-      return useLoadingStore().show;
-    },
-  },
-});
+      return useLoadingStore().show
+    }
+  }
+})
 </script>
 
 <style scoped>

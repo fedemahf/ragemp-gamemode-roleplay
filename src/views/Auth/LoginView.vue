@@ -31,32 +31,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useNotificationsStore } from "@/stores/Notifications";
-import type { AppNotification } from "@/stores/Notifications";
-import { useRageMpStore } from "@/stores/RageMp";
+import { defineComponent } from 'vue'
+import { useNotificationsStore } from '@/stores/Notifications'
+import type { AppNotification } from '@/stores/Notifications'
+import { useRageMpStore } from '@/stores/RageMp'
 
 export default defineComponent({
   data: function () {
     return {
-      email: "",
-      password: "",
-    };
+      email: '',
+      password: ''
+    }
   },
   methods: {
     login() {
       const obj = {
         email: this.email.toLowerCase(),
-        password: this.password,
-      };
-      useRageMpStore().callServerEvent("sLogin-Login", JSON.stringify(obj));
+        password: this.password
+      }
+      useRageMpStore().callServerEvent('sLogin-Login', JSON.stringify(obj))
     },
 
     addNotification(notification: AppNotification) {
-      return useNotificationsStore().addNotification(notification);
-    },
-  },
-});
+      return useNotificationsStore().addNotification(notification)
+    }
+  }
+})
 </script>
 
 <style scoped>
