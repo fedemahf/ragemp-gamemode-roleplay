@@ -13,7 +13,7 @@ Roleplay gamemode for RAGE Multiplayer (GTA:V) using TypeScript. Based on [MarkC
 - `/respawn` - Respawn after death.
 - `/creator` - Customize character.
 - `/clothes` - Customize clothes.
-- Roleplay commands: `/me`, `/do/`, `/l`, `/s`, `/w`.
+- Roleplay commands: `/me`, `/do`, `/l`, `/s`, `/w`.
 
 ## Install
 - Set the SQL credentials in a `.env` file in the root folder. See: [.env.example](.env.example)
