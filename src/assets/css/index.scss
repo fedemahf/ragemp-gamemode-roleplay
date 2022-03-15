@@ -1,11 +1,10 @@
-@import url('./reset.scss');
-@import url('./theme.scss');
-@import url('./particles.scss');
-@import url('./link-button.scss');
-@import url('./notification.scss');
-@import url('./transition.scss');
-@import url('./input.scss');
-
+@use './reset.scss';
+@use './theme.scss';
+@use './particles.scss';
+@use './link-button.scss';
+@use './notification.scss';
+@use './transition.scss';
+@use './input.scss';
 
 .full {
     position: fixed;
