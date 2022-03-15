@@ -1,0 +1,16 @@
+@use './reset.scss';
+@use './theme.scss';
+@use './particles.scss';
+@use './link-button.scss';
+@use './notification.scss';
+@use './transition.scss';
+@use './input.scss';
+
+.full {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: auto;
+}
