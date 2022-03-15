@@ -108,11 +108,11 @@ class Register extends Auth {
     }
 
     setRegistrationNameAvailable(player: PlayerMp, status: boolean) {
-        Browser.pasteJs(player, `appData.views.Register.nameAvailable = ${status};`);
+        Browser.pasteJs(player, `App.Register.setNameAvailable(${status});`);
     }
 
     setRegistrationEmailChecked(player: PlayerMp, status: boolean) {
-        Browser.pasteJs(player, `appData.views.Register.emailChecked = ${status};`);
+        Browser.pasteJs(player, `App.Register.setEmailChecked(${status});`);
     }
 
 }

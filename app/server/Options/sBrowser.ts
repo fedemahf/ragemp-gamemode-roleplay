@@ -4,7 +4,7 @@
     }
     
     showNotification(player: PlayerMp, text: string, theme?: string, time?: number, title?: string, img?: string) {
-        let str = `app.addNotification({`;
+        let str = `App.Notifications.addNotification({`;
         str += `text: "${text}",`;
         if (theme) str += `theme: "${theme}",`;
         if (time) str += `time: "${time}",`;
@@ -15,7 +15,7 @@
     }
 
     setLoadingScreenState(player: PlayerMp, state: boolean) {
-        this.pasteJs(player, `app.showLoading(${state});`);
+        this.pasteJs(player, `App.Loading.showLoading(${state});`);
     }
 
 	setUrl(player: PlayerMp, url: string, enableCursor: boolean) {
