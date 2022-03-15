@@ -2,7 +2,7 @@ class BrowserSingletone {
 	browser: BrowserMp;
 
 	constructor() {
-		this.browser = mp.browsers.new('package://cef/');
+		this.browser = mp.browsers.new('package://cef/index.html');
 
 		mp.events.add({
 			"cBrowser-SetUrl" : (url: string, enableCursor: boolean) => {
