@@ -28,5 +28,11 @@
     "typescript": "~4.5.5",
     "vite": "^2.8.4",
     "vue-tsc": "^0.31.4"
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
   }
 }
