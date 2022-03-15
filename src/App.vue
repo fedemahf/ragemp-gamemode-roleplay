@@ -1,8 +1,13 @@
 <template>
   <b id="app">
-    <transition name="fade">
+    <router-view v-slot="{ Component }">
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+    <!-- <transition name="fade">
       <router-view />
-    </transition>
+    </transition> -->
     <transition name="fade">
       <Loading />
     </transition>
