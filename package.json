@@ -16,7 +16,15 @@
     "build-server": "npm run build --prefix ./app/server",
     "build-client": "npm run build --prefix ./app/client",
     "build-cef": "npm run build --prefix ./app/cef",
-    "build": "npm run build --prefix ./app/server && npm run build --prefix ./app/client && npm run build --prefix ./app/cef"
+    "build": "npm run build --prefix ./app/server && npm run build --prefix ./app/client && npm run build --prefix ./app/cef",
+    "lint-server": "npm run lint --prefix ./app/server",
+    "lint-client": "npm run lint --prefix ./app/client",
+    "lint-cef": "npm run lint --prefix ./app/cef",
+    "lint": "npm run lint --prefix ./app/server && npm run lint --prefix ./app/client && npm run lint --prefix ./app/cef",
+    "lint-server:fix": "npm run lint:fix --prefix ./app/server",
+    "lint-client:fix": "npm run lint:fix --prefix ./app/client",
+    "lint-cef:fix": "npm run lint:fix --prefix ./app/cef",
+    "lint:fix": "npm run lint:fix --prefix ./app/server && npm run lint:fix --prefix ./app/client && npm run lint:fix --prefix ./app/cef"
   },
   "repository": {
     "type": "git",
