@@ -10,6 +10,15 @@ module.exports = {
   parserOptions: {
     // ecmaVersion: 'latest',
     // sourceType: 'module',
-    project: './tsconfig.json'
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname
+  },
+  ignorePatterns: ['vendor/**'],
+  rules: {
+    '@typescript-eslint/strict-boolean-expressions': 0,
+    '@typescript-eslint/triple-slash-reference': 0,
+    '@typescript-eslint/no-misused-promises': 0,
+    '@typescript-eslint/naming-convention': 0,
+    '@typescript-eslint/restrict-template-expressions': 0
   }
 }
