@@ -13,8 +13,8 @@ class VehicleSingleton {
           return
         }
 
-        let vehicleName: string
-        let vehicleId: number
+        let vehicleName: string = 'UNKNOWN'
+        let vehicleId: number = 0
 
         if (fullText) {
           vehicleName = fullText.trim().toUpperCase()
@@ -47,8 +47,8 @@ class VehicleSingleton {
           return
         }
 
-        let vehicleName: string
-        let vehicleId: number
+        let vehicleName: string = 'UNKNOWN'
+        let vehicleId: number = 0
 
         if (fullText) {
           vehicleName = fullText.trim().toUpperCase()
