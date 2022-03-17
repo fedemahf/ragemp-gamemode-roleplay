@@ -51,8 +51,16 @@ mp.events.addCommand({
         player.outputChatBox(ChatMisc.insertColorAndTimeStamp('gray') + 'You need to be alive to change your skin!')
       } else {
         if (player.setSkin(fullText)) {
-          const skinModel: string = PedHash.getSkinModelByHash(player.model).toUpperCase()
-          const skinIndex: number = PedHash.getSkinIndexByModel(skinModel)
+          let skinModel: string | undefined = PedHash.getSkinModelByHash(player.model)
+          let skinIndex: string = '???'
+
+          if (skinModel !== undefined) {
+            skinModel = skinModel.toUpperCase()
+            skinIndex = PedHash.getSkinIndexByModel(skinModel).toString()
+          } else {
+            skinModel = '???'
+          }
+
           player.outputChatBox(ChatMisc.insertColorAndTimeStamp('green') + `Skin changed! New skin: ${skinModel} (IDX: ${skinIndex}, HASH: 0x${player.model.toString(16).padStart(6, '0')})`)
         } else {
           player.outputChatBox(ChatMisc.insertColorAndTimeStamp('darkred') + 'Skin not found, try again!')
