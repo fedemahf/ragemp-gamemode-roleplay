@@ -8,7 +8,8 @@
         "preserveConstEnums": true,
         "lib": ["esnext", "dom"],
         "sourceMap": false,
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "strictNullChecks": true
     },
     "include": [
         "**/*"

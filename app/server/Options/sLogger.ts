@@ -1,67 +1,66 @@
-import * as winston from 'winston';
-
+import * as winston from 'winston'
 
 class Logger {
-	consoleLogger: any;
-	fileLogger: any;
+  consoleLogger: any
+  fileLogger: any
 
-	level: winston.level;
+  level: winston.level
 
-	constructor() {
-		this.level = 'debug';
+  constructor () {
+    this.level = 'debug'
 
-		this.consoleLogger = winston.createLogger({
-			level: this.level,
-			format: winston.format.combine(
-				winston.format.colorize({ all: true }),
-				winston.format.timestamp({ format: 'HH:mm:ss.SSS YYYY-MM-DD', }),
-				winston.format.printf(info => `[${info.timestamp}][${info.level}]: ${info.message}`)
-			),
-			transports: [
-			  	new winston.transports.Console(),
-			],
-		});
+    this.consoleLogger = winston.createLogger({
+      level: this.level,
+      format: winston.format.combine(
+        winston.format.colorize({ all: true }),
+        winston.format.timestamp({ format: 'HH:mm:ss.SSS YYYY-MM-DD' }),
+        winston.format.printf(info => `[${info.timestamp}][${info.level}]: ${info.message}`)
+      ),
+      transports: [
+        new winston.transports.Console()
+      ]
+    })
 
-		this.fileLogger = winston.createLogger({
-			level: this.level,
-			format: winston.format.combine(
-				winston.format.timestamp({ format: 'HH:mm:ss.SSS YYYY-MM-DD', }),
-				winston.format.printf(info => `[${info.timestamp}][${info.level}]: ${info.message}`)
-			),
-			transports: [
-			  	new winston.transports.File({ filename: 'logs.log' })
-			],
-		});
-	}
+    this.fileLogger = winston.createLogger({
+      level: this.level,
+      format: winston.format.combine(
+        winston.format.timestamp({ format: 'HH:mm:ss.SSS YYYY-MM-DD' }),
+        winston.format.printf(info => `[${info.timestamp}][${info.level}]: ${info.message}`)
+      ),
+      transports: [
+        new winston.transports.File({ filename: 'logs.log' })
+      ]
+    })
+  }
 
-	log(level: string, text: string) {
-		this.consoleLogger.log(level, text);
-		this.fileLogger.log(level, text);
-	}
+  log (level: string, text: string): void {
+    this.consoleLogger.log(level, text)
+    this.fileLogger.log(level, text)
+  }
 
-	silly(text: string) {
-		return this.log('silly', text);
-	}
+  silly (text: string): void {
+    return this.log('silly', text)
+  }
 
-	debug(text: string) {
-		return this.log('debug', text);
-	}
+  debug (text: string): void {
+    return this.log('debug', text)
+  }
 
-	verbose(text: string) {
-		return this.log('verbose', text);
-	}
+  verbose (text: string): void {
+    return this.log('verbose', text)
+  }
 
-	info(text: string) {
-		return this.log('info', text);
-	}
+  info (text: string): void {
+    return this.log('info', text)
+  }
 
-	warn(text: string) {
-		return this.log('warn', text);
-	}
+  warn (text: string): void {
+    return this.log('warn', text)
+  }
 
-	error(text: string) {
-		return this.log('error', text);
-	}
-
+  error (text: string): void {
+    return this.log('error', text)
+  }
 }
-export default new Logger();
+
+export default new Logger()
