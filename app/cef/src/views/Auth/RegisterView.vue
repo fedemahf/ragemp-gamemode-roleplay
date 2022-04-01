@@ -168,6 +168,10 @@ export default defineComponent({
     addNotification(notification: AppNotification) {
       return useNotificationsStore().addNotification(notification)
     }
+  },
+  unmounted() {
+    this.resetCheckedEmail()
+    this.resetCheckedName()
   }
 })
 </script>
