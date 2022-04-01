@@ -6,10 +6,12 @@
         "suppressImplicitAnyIndexErrors": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "lib": ["esnext", "dom"],
+        "lib": ["esnext", "dom", "ES6"],
         "sourceMap": false,
         "resolveJsonModule": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true
     },
     "include": [
         "**/*"
