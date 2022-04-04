@@ -4,8 +4,10 @@ import Auth from './sAuth'
 import Browser from '../Options/sBrowser'
 import Camera from '../Options/sCamera'
 import Logger from '../Options/sLogger'
-import DB from '../Options/sDB'
+// import DB from '../Options/sDB'
 import PlayerSingletone from '../Player/sPlayerSingletone'
+import Database from '../Database'
+import { User as DatabaseUser } from '../Database/entity/User'
 
 class Login extends Auth {
   loginScreenPlayerPos: Vector3Mp
@@ -39,32 +41,30 @@ class Login extends Auth {
     Logger.debug(`${player.name} connected`)
   }
 
-  async login (player: PlayerMp, data: string): Promise<void> {
-    const obj = JSON.parse(data)
-    let email: string = obj.email
-    email = email.toLowerCase()
+  async login (player: PlayerMp, inputString: string): Promise<void> {
+    const input = JSON.parse(inputString)
+    const user: DatabaseUser | null = await Database.getUserByEmail(input.email.toLowerCase())
 
-    const result: any = await DB.query(`SELECT id, password, salt, admin FROM user WHERE email = ${DB.escape(email)} LIMIT 1`)
-    if (!result[0]) {
+    if (user === null) {
       Browser.showNotification(player, 'This email doesn\'t exists!', 'red', 4, 'Wrong email address', 'error.svg')
-      Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong email! Email: ${email}`)
-    } else {
-      const user_id: number = result[0].id
-      const password1: string = result[0].password
-      const password2: string = this.hashPassword(obj.password, result[0].salt)
-      const admin: number = result[0].admin
-
-      if (password1 !== password2) {
-        Browser.showNotification(player, 'Wrong password', 'red', 4, 'Error', 'error.svg')
-        Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong password! Email: ${email}`)
-      } else if (this.isAlreadyPlaying(user_id)) {
-        Browser.showNotification(player, 'This user already playing now!', 'red', 4, 'Error', 'error.svg')
-        Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} tried to log in from another PC! Email: ${email}`)
-      } else {
-        player.admin = admin
-        await PlayerSingletone.loadAccount(player, user_id)
-      }
+      Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong email! Email: ${input.email}`)
+      return
     }
+
+    if (user.password !== this.hashPassword(input.password, user.salt)) {
+      Browser.showNotification(player, 'Wrong password', 'red', 4, 'Error', 'error.svg')
+      Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} entered wrong password! Email: ${input.email}`)
+      return
+    }
+
+    if (this.isAlreadyPlaying(user.id)) {
+      Browser.showNotification(player, 'This user already playing now!', 'red', 4, 'Error', 'error.svg')
+      Logger.warn(`${player.name} | ${player.socialClub} | ${player.ip} tried to log in from another PC! Email: ${input.email}`)
+      return
+    }
+
+    player.admin = user.admin
+    await PlayerSingletone.loadAccount(player, user.id)
   }
 
   private isAlreadyPlaying (user_id: number): boolean {

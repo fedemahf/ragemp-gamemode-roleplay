@@ -1,7 +1,8 @@
 import Auth from './sAuth'
-import DB from '../Options/sDB'
 import Browser from '../Options/sBrowser'
-import PlayerSingletone from '../Player/sPlayerSingletone'
+// import PlayerSingletone from '../Player/sPlayerSingletone'
+import Database from '../Database'
+import Logger from '../Options/sLogger'
 
 class Register extends Auth {
   constructor () {
@@ -32,75 +33,63 @@ class Register extends Auth {
   async checkEmail (player: PlayerMp, email: string): Promise<void> {
     if (!this.isEmailValid(email)) {
       Browser.showNotification(player, 'Please, check your email address!', 'red', 4, 'Wrong email address', 'error.svg')
-    } else {
-      const d: any = await DB.query(`SELECT id FROM user WHERE email = ${DB.escape(email)} LIMIT 1`)
-
-      if (d[0]) {
-        Browser.showNotification(player, 'This email already exists!', 'red', 4, 'Wrong email address', 'error.svg')
-      } else {
-        Browser.showNotification(player, 'You can use this email!', 'green', 4, 'Success')
-        this.setRegistrationEmailChecked(player, true)
-      }
+      return
     }
+
+    if (await Database.userEmailAlreadyExists(email)) {
+      Browser.showNotification(player, 'This email already exists!', 'red', 4, 'Wrong email address', 'error.svg')
+      return
+    }
+
+    Browser.showNotification(player, 'You can use this email!', 'green', 4, 'Success')
+    this.setRegistrationEmailChecked(player, true)
   }
 
-  async checkName (player: PlayerMp, obj: string): Promise<void> {
-    let error: string = ''
-    const data = JSON.parse(obj)
+  async checkName (player: PlayerMp, dataString: string): Promise<void> {
+    const input = JSON.parse(dataString)
 
-    if (!this.isNameValid(data.firstName) || !this.isNameValid(data.lastName)) {
-      error = 'The name is not valid!'
-    } else {
-      const d: any = await DB.query(`SELECT id FROM player WHERE firstName = ${DB.escape(data.firstName)} AND lastName = ${DB.escape(data.lastName)} LIMIT 1`)
-
-      if (d[0]) {
-        error = 'This name already exists!'
-      }
+    if (!this.isNameValid(input.firstName) || !this.isNameValid(input.lastName)) {
+      Browser.showNotification(player, 'The name is not valid!', 'red', 4, 'Error', 'error.svg')
+      return
     }
 
-    if (error.length > 0) {
-      Browser.showNotification(player, error, 'red', 4, 'Error', 'error.svg')
-    } else {
-      this.setRegistrationNameAvailable(player, true)
-      Browser.showNotification(player, 'You can use this name!', 'green', 4, 'Success')
+    if (await Database.playerNameAlreadyExists(input.firstName, input.lastName)) {
+      Browser.showNotification(player, 'This name already exists!', 'red', 4, 'Error', 'error.svg')
+      return
     }
+
+    this.setRegistrationNameAvailable(player, true)
+    Browser.showNotification(player, 'You can use this name!', 'green', 4, 'Success')
   }
 
-  async tryToCreateAccount (player: PlayerMp, obj: string): Promise<void> {
-    let error: string = ''
-    const data = JSON.parse(obj)
+  async tryToCreateAccount (player: PlayerMp, inputString: string): Promise<void> {
+    const input = JSON.parse(inputString)
 
-    if (!this.isNameValid(data.firstName) || !this.isNameValid(data.lastName)) {
-      error = 'The name is not valid!'
-    } else if (!this.isEmailValid(data.email)) {
-      error = 'The email is not valid!'
-    } else {
-      const result1: any = await DB.query(`SELECT id FROM user WHERE email = ${DB.escape(data.email)} LIMIT 1`)
-      const result2: any = await DB.query(`SELECT id FROM player WHERE firstName = ${DB.escape(data.firstName)} AND lastName = ${DB.escape(data.lastName)} LIMIT 1`)
-
-      if (result1[0] || result2[0]) {
-        error = 'There was an error creating your account, please try again'
-      }
+    if (!this.isNameValid(input.firstName) || !this.isNameValid(input.lastName)) {
+      Browser.showNotification(player, 'The name is not valid!', 'red', 4, 'Error', 'error.svg')
+      return
     }
 
-    if (error.length > 0) {
-      Browser.showNotification(player, error, 'red', 4, 'Error', 'error.svg')
-    } else {
-      await this.createAccount(player, data.email, data.firstName, data.lastName, data.password)
+    if (!this.isEmailValid(input.email)) {
+      Browser.showNotification(player, 'The email is not valid!', 'red', 4, 'Error', 'error.svg')
+      return
     }
+
+    if (await Database.userEmailAlreadyExists(input.email) || await Database.playerNameAlreadyExists(input.firstName, input.lastName)) {
+      Browser.showNotification(player, 'There was an error creating your account, please try again', 'red', 4, 'Error', 'error.svg')
+      return
+    }
+
+    await this.createAccount(player, input.email, input.firstName, input.lastName, input.password)
   }
 
   async createAccount (player: PlayerMp, email: string, firstName: string, lastName: string, password: string): Promise<void> {
     const salt = this.generateSalt()
-    const pass = this.hashPassword(password, salt)
-    const result = await PlayerSingletone.createUser(player, email, firstName, lastName, pass, salt)
-
-    if (!result) {
-      Browser.showNotification(player, 'There was an error creating your account, please try again', 'red', 4, 'Error', 'error.svg')
-    } else {
-      Browser.showNotification(player, `Welcome to Los Santos, ${firstName} ${lastName}!`, 'green', 8, 'Success')
-      player.call('cMisc-CallServerEvent', ['sLogin-Login', JSON.stringify({ email: email.toLowerCase(), password: password })])
-    }
+    const hashedPassword = this.hashPassword(password, salt)
+    await Database.createUser(email, firstName, lastName, hashedPassword, salt)
+    Logger.debug(`New Account: ${email} | ${firstName} ${lastName} | ${player.socialClub}`)
+    Browser.showNotification(player, `Welcome to Los Santos, ${firstName} ${lastName}!`, 'green', 8, 'Success')
+    player.call('cMisc-CallServerEvent', ['sLogin-Login', JSON.stringify({ email: email.toLowerCase(), password: password })])
   }
 
   setRegistrationNameAvailable (player: PlayerMp, status: boolean): void {

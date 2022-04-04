@@ -128,3 +128,11 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# npx typeorm init --database mysql
+.idea/
+.vscode/
+# node_modules/
+build/
+tmp/
+temp/
