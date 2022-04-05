@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
-@Entity()
+@Entity({name: 'player_customization'})
 export class PlayerCustomization {
   @PrimaryGeneratedColumn()
   id: number
