@@ -80,7 +80,7 @@ class VehicleSingleton {
           dimension: dimension
         })
 
-        vehicle.id_sql = await Database.createVehicle(vehicleModelId, x, y, z, rz, dimension)
+        vehicle.id_sql = await Database.createVehicle(vehicleModelId, player.id_sql, x, y, z, rz, dimension)
         player.putIntoVehicle(vehicle, 0)
         player.outputChatBox(`${vehicleModelName} (ID: ${vehicleModelId}) spawned!`)
         Logger.info(`${player.firstName} ${player.lastName} (ID: ${player.id}) spawned a ${vehicleModelName} (ID: ${vehicleModelId})`)

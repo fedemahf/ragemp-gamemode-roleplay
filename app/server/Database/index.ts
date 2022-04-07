@@ -109,13 +109,15 @@ class Database {
     await AppDataSource.manager.save(player)
   }
 
-  public async createVehicle (model: number, pos_x: number, pos_y: number, pos_z: number, pos_rz: number, dimension: number): Promise<number> {
+  public async createVehicle (model: number, player_id: number, pos_x: number, pos_y: number, pos_z: number, pos_rz: number, dimension: number): Promise<number> {
     const vehicle = new Vehicle()
     vehicle.model = model
+    vehicle.player_id = player_id
     vehicle.pos_x = pos_x
     vehicle.pos_y = pos_y
     vehicle.pos_z = pos_z
     vehicle.pos_rz = pos_rz
+    vehicle.dimension = dimension
     await AppDataSource.manager.save(vehicle)
 
     return vehicle.id
