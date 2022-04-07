@@ -1,7 +1,9 @@
 /// <reference path="../index.d.ts" />
 
 // import * as fs from 'fs';
-import DB from '../Options/sDB'
+import Database from '../Database'
+import { PlayerCustomization } from '../Database/entity/PlayerCustomization'
+// import DB from '../Options/sDB'
 
 // const saveDirectory = "CustomCharacters";
 const freemodeCharacters = [mp.joaat('mp_m_freemode_01'), mp.joaat('mp_f_freemode_01')]
@@ -109,85 +111,86 @@ mp.events.add('playerJoin', (player) => {
   }
 
   player.loadCharacter = async function () {
-    const result: any = await DB.query(`SELECT * FROM player_customization WHERE player_id = '${player.id_sql}'`)
+    const playerCustomization: PlayerCustomization | null = await Database.getPlayerCustomizationById(player.user_id)
 
-    if (!result[0]) {
+    if (playerCustomization === null) {
       this.defaultCharacter()
-    } else {
-      this.customCharacter.Gender = result[0].gender
-      this.customCharacter.Parents.Father = result[0].parents_father
-      this.customCharacter.Parents.Mother = result[0].parents_mother
-      this.customCharacter.Parents.Similarity = result[0].parents_similarity
-      this.customCharacter.Parents.SkinSimilarity = result[0].parents_skin_similarity
-
-      for (let i = 0; i < 20; ++i) {
-        this.customCharacter.Features[i] = result[0][`features_${(i + 1).toString().padStart(2, '0')}`]
-      }
-
-      for (let i = 0; i < 11; ++i) {
-        this.customCharacter.Appearance[i] = {
-          Value: result[0][`appearance_${(i + 1).toString().padStart(2, '0')}_value`],
-          Opacity: result[0][`appearance_${(i + 1).toString().padStart(2, '0')}_opacity`]
-        }
-      }
-
-      // this.customCharacter.Features[0] = result[0].features_01;
-      // this.customCharacter.Features[1] = result[0].features_02;
-      // this.customCharacter.Features[2] = result[0].features_03;
-      // this.customCharacter.Features[3] = result[0].features_04;
-      // this.customCharacter.Features[4] = result[0].features_05;
-      // this.customCharacter.Features[5] = result[0].features_06;
-      // this.customCharacter.Features[6] = result[0].features_07;
-      // this.customCharacter.Features[7] = result[0].features_08;
-      // this.customCharacter.Features[8] = result[0].features_09;
-      // this.customCharacter.Features[9] = result[0].features_10;
-      // this.customCharacter.Features[10] = result[0].features_11;
-      // this.customCharacter.Features[11] = result[0].features_12;
-      // this.customCharacter.Features[12] = result[0].features_13;
-      // this.customCharacter.Features[13] = result[0].features_14;
-      // this.customCharacter.Features[14] = result[0].features_15;
-      // this.customCharacter.Features[15] = result[0].features_16;
-      // this.customCharacter.Features[16] = result[0].features_17;
-      // this.customCharacter.Features[17] = result[0].features_18;
-      // this.customCharacter.Features[18] = result[0].features_19;
-      // this.customCharacter.Features[19] = result[0].features_20;
-
-      // this.customCharacter.Appearance[0].Value = result[0].appearance_01_value;
-      // this.customCharacter.Appearance[0].Opacity = result[0].appearance_01_opacity;
-      // this.customCharacter.Appearance[1].Value = result[0].appearance_02_value;
-      // this.customCharacter.Appearance[1].Opacity = result[0].appearance_02_opacity;
-      // this.customCharacter.Appearance[2].Value = result[0].appearance_03_value;
-      // this.customCharacter.Appearance[2].Opacity = result[0].appearance_03_opacity;
-      // this.customCharacter.Appearance[3].Value = result[0].appearance_04_value;
-      // this.customCharacter.Appearance[3].Opacity = result[0].appearance_04_opacity;
-      // this.customCharacter.Appearance[4].Value = result[0].appearance_05_value;
-      // this.customCharacter.Appearance[4].Opacity = result[0].appearance_05_opacity;
-      // this.customCharacter.Appearance[5].Value = result[0].appearance_06_value;
-      // this.customCharacter.Appearance[5].Opacity = result[0].appearance_06_opacity;
-      // this.customCharacter.Appearance[6].Value = result[0].appearance_07_value;
-      // this.customCharacter.Appearance[6].Opacity = result[0].appearance_07_opacity;
-      // this.customCharacter.Appearance[7].Value = result[0].appearance_08_value;
-      // this.customCharacter.Appearance[7].Opacity = result[0].appearance_08_opacity;
-      // this.customCharacter.Appearance[8].Value = result[0].appearance_09_value;
-      // this.customCharacter.Appearance[8].Opacity = result[0].appearance_09_opacity;
-      // this.customCharacter.Appearance[9].Value = result[0].appearance_10_value;
-      // this.customCharacter.Appearance[9].Opacity = result[0].appearance_10_opacity;
-      // this.customCharacter.Appearance[10].Value = result[0].appearance_11_value;
-      // this.customCharacter.Appearance[10].Opacity = result[0].appearance_11_opacity;
-
-      this.customCharacter.Hair.Hair = result[0].hair_value
-      this.customCharacter.Hair.Color = result[0].hair_color
-      this.customCharacter.Hair.HighlightColor = result[0].hair_highlight_color
-      this.customCharacter.EyebrowColor = result[0].eyebrow_color
-      this.customCharacter.BeardColor = result[0].beard_color
-      this.customCharacter.EyeColor = result[0].eye_color
-      this.customCharacter.BlushColor = result[0].blush_color
-      this.customCharacter.LipstickColor = result[0].lipstick_color
-      this.customCharacter.ChestHairColor = result[0].chest_hair_color
-
-      // this.customCharacter = JSON.parse(data.toString());
-      this.applyCharacter()
+      return
     }
+
+    this.customCharacter.Gender = playerCustomization.gender
+    this.customCharacter.Parents.Father = playerCustomization.parents_father
+    this.customCharacter.Parents.Mother = playerCustomization.parents_mother
+    this.customCharacter.Parents.Similarity = playerCustomization.parents_similarity
+    this.customCharacter.Parents.SkinSimilarity = playerCustomization.parents_skin_similarity
+
+    for (let i = 0; i < 20; ++i) {
+      this.customCharacter.Features[i] = playerCustomization[`features_${(i + 1).toString().padStart(2, '0')}`]
+    }
+
+    for (let i = 0; i < 11; ++i) {
+      this.customCharacter.Appearance[i] = {
+        Value: playerCustomization[`appearance_${(i + 1).toString().padStart(2, '0')}_value`],
+        Opacity: playerCustomization[`appearance_${(i + 1).toString().padStart(2, '0')}_opacity`]
+      }
+    }
+
+    // this.customCharacter.Features[0] = playerCustomization.features_01;
+    // this.customCharacter.Features[1] = playerCustomization.features_02;
+    // this.customCharacter.Features[2] = playerCustomization.features_03;
+    // this.customCharacter.Features[3] = playerCustomization.features_04;
+    // this.customCharacter.Features[4] = playerCustomization.features_05;
+    // this.customCharacter.Features[5] = playerCustomization.features_06;
+    // this.customCharacter.Features[6] = playerCustomization.features_07;
+    // this.customCharacter.Features[7] = playerCustomization.features_08;
+    // this.customCharacter.Features[8] = playerCustomization.features_09;
+    // this.customCharacter.Features[9] = playerCustomization.features_10;
+    // this.customCharacter.Features[10] = playerCustomization.features_11;
+    // this.customCharacter.Features[11] = playerCustomization.features_12;
+    // this.customCharacter.Features[12] = playerCustomization.features_13;
+    // this.customCharacter.Features[13] = playerCustomization.features_14;
+    // this.customCharacter.Features[14] = playerCustomization.features_15;
+    // this.customCharacter.Features[15] = playerCustomization.features_16;
+    // this.customCharacter.Features[16] = playerCustomization.features_17;
+    // this.customCharacter.Features[17] = playerCustomization.features_18;
+    // this.customCharacter.Features[18] = playerCustomization.features_19;
+    // this.customCharacter.Features[19] = playerCustomization.features_20;
+
+    // this.customCharacter.Appearance[0].Value = playerCustomization.appearance_01_value;
+    // this.customCharacter.Appearance[0].Opacity = playerCustomization.appearance_01_opacity;
+    // this.customCharacter.Appearance[1].Value = playerCustomization.appearance_02_value;
+    // this.customCharacter.Appearance[1].Opacity = playerCustomization.appearance_02_opacity;
+    // this.customCharacter.Appearance[2].Value = playerCustomization.appearance_03_value;
+    // this.customCharacter.Appearance[2].Opacity = playerCustomization.appearance_03_opacity;
+    // this.customCharacter.Appearance[3].Value = playerCustomization.appearance_04_value;
+    // this.customCharacter.Appearance[3].Opacity = playerCustomization.appearance_04_opacity;
+    // this.customCharacter.Appearance[4].Value = playerCustomization.appearance_05_value;
+    // this.customCharacter.Appearance[4].Opacity = playerCustomization.appearance_05_opacity;
+    // this.customCharacter.Appearance[5].Value = playerCustomization.appearance_06_value;
+    // this.customCharacter.Appearance[5].Opacity = playerCustomization.appearance_06_opacity;
+    // this.customCharacter.Appearance[6].Value = playerCustomization.appearance_07_value;
+    // this.customCharacter.Appearance[6].Opacity = playerCustomization.appearance_07_opacity;
+    // this.customCharacter.Appearance[7].Value = playerCustomization.appearance_08_value;
+    // this.customCharacter.Appearance[7].Opacity = playerCustomization.appearance_08_opacity;
+    // this.customCharacter.Appearance[8].Value = playerCustomization.appearance_09_value;
+    // this.customCharacter.Appearance[8].Opacity = playerCustomization.appearance_09_opacity;
+    // this.customCharacter.Appearance[9].Value = playerCustomization.appearance_10_value;
+    // this.customCharacter.Appearance[9].Opacity = playerCustomization.appearance_10_opacity;
+    // this.customCharacter.Appearance[10].Value = playerCustomization.appearance_11_value;
+    // this.customCharacter.Appearance[10].Opacity = playerCustomization.appearance_11_opacity;
+
+    this.customCharacter.Hair.Hair = playerCustomization.hair_value
+    this.customCharacter.Hair.Color = playerCustomization.hair_color
+    this.customCharacter.Hair.HighlightColor = playerCustomization.hair_highlight_color
+    this.customCharacter.EyebrowColor = playerCustomization.eyebrow_color
+    this.customCharacter.BeardColor = playerCustomization.beard_color
+    this.customCharacter.EyeColor = playerCustomization.eye_color
+    this.customCharacter.BlushColor = playerCustomization.blush_color
+    this.customCharacter.LipstickColor = playerCustomization.lipstick_color
+    this.customCharacter.ChestHairColor = playerCustomization.chest_hair_color
+
+    // this.customCharacter = JSON.parse(data.toString());
+    this.applyCharacter()
 
     // fs.readFile(`${saveDirectory}/${this.name}.json`, (err: NodeJS.ErrnoException, data: Buffer) => {
     //     if (err) {
@@ -204,131 +207,67 @@ mp.events.add('playerJoin', (player) => {
   }
 
   player.saveCharacter = async function () {
-    await DB.query(`DELETE FROM player_customization WHERE player_id = '${player.id_sql}'`)
+    await Database.removePlayerCustomizationById(player.id_sql)
 
-    await DB.query(
-      'INSERT INTO `player_customization` (' +
-                '`player_id`,' +
-                '`gender`,' +
-                '`parents_father`,' +
-                '`parents_mother`,' +
-                '`parents_similarity`,' +
-                '`parents_skin_similarity`,' +
-                '`features_01`,' +
-                '`features_02`,' +
-                '`features_03`,' +
-                '`features_04`,' +
-                '`features_05`,' +
-                '`features_06`,' +
-                '`features_07`,' +
-                '`features_08`,' +
-                '`features_09`,' +
-                '`features_10`,' +
-                '`features_11`,' +
-                '`features_12`,' +
-                '`features_13`,' +
-                '`features_14`,' +
-                '`features_15`,' +
-                '`features_16`,' +
-                '`features_17`,' +
-                '`features_18`,' +
-                '`features_19`,' +
-                '`features_20`,' +
-                '`appearance_01_value`,' +
-                '`appearance_01_opacity`,' +
-                '`appearance_02_value`,' +
-                '`appearance_02_opacity`,' +
-                '`appearance_03_value`,' +
-                '`appearance_03_opacity`,' +
-                '`appearance_04_value`,' +
-                '`appearance_04_opacity`,' +
-                '`appearance_05_value`,' +
-                '`appearance_05_opacity`,' +
-                '`appearance_06_value`,' +
-                '`appearance_06_opacity`,' +
-                '`appearance_07_value`,' +
-                '`appearance_07_opacity`,' +
-                '`appearance_08_value`,' +
-                '`appearance_08_opacity`,' +
-                '`appearance_09_value`,' +
-                '`appearance_09_opacity`,' +
-                '`appearance_10_value`,' +
-                '`appearance_10_opacity`,' +
-                '`appearance_11_value`,' +
-                '`appearance_11_opacity`,' +
-                '`hair_value`,' +
-                '`hair_color`,' +
-                '`hair_highlight_color`,' +
-                '`eyebrow_color`,' +
-                '`beard_color`,' +
-                '`eye_color`,' +
-                '`blush_color`,' +
-                '`lipstick_color`,' +
-                '`chest_hair_color`' +
-            ') VALUES (' +
-                `'${player.id_sql}',` +
-                `'${player.customCharacter.Gender}',` +
-                `'${player.customCharacter.Parents.Father}',` +
-                `'${player.customCharacter.Parents.Mother}',` +
-                `'${player.customCharacter.Parents.Similarity}',` +
-                `'${player.customCharacter.Parents.SkinSimilarity}',` +
-                `'${player.customCharacter.Features[0]}',` +
-                `'${player.customCharacter.Features[1]}',` +
-                `'${player.customCharacter.Features[2]}',` +
-                `'${player.customCharacter.Features[3]}',` +
-                `'${player.customCharacter.Features[4]}',` +
-                `'${player.customCharacter.Features[5]}',` +
-                `'${player.customCharacter.Features[6]}',` +
-                `'${player.customCharacter.Features[7]}',` +
-                `'${player.customCharacter.Features[8]}',` +
-                `'${player.customCharacter.Features[9]}',` +
-                `'${player.customCharacter.Features[10]}',` +
-                `'${player.customCharacter.Features[11]}',` +
-                `'${player.customCharacter.Features[12]}',` +
-                `'${player.customCharacter.Features[13]}',` +
-                `'${player.customCharacter.Features[14]}',` +
-                `'${player.customCharacter.Features[15]}',` +
-                `'${player.customCharacter.Features[16]}',` +
-                `'${player.customCharacter.Features[17]}',` +
-                `'${player.customCharacter.Features[18]}',` +
-                `'${player.customCharacter.Features[19]}',` +
-                `'${player.customCharacter.Appearance[0].Value}',` +
-                `'${player.customCharacter.Appearance[0].Opacity}',` +
-                `'${player.customCharacter.Appearance[1].Value}',` +
-                `'${player.customCharacter.Appearance[1].Opacity}',` +
-                `'${player.customCharacter.Appearance[2].Value}',` +
-                `'${player.customCharacter.Appearance[2].Opacity}',` +
-                `'${player.customCharacter.Appearance[3].Value}',` +
-                `'${player.customCharacter.Appearance[3].Opacity}',` +
-                `'${player.customCharacter.Appearance[4].Value}',` +
-                `'${player.customCharacter.Appearance[4].Opacity}',` +
-                `'${player.customCharacter.Appearance[5].Value}',` +
-                `'${player.customCharacter.Appearance[5].Opacity}',` +
-                `'${player.customCharacter.Appearance[6].Value}',` +
-                `'${player.customCharacter.Appearance[6].Opacity}',` +
-                `'${player.customCharacter.Appearance[7].Value}',` +
-                `'${player.customCharacter.Appearance[7].Opacity}',` +
-                `'${player.customCharacter.Appearance[8].Value}',` +
-                `'${player.customCharacter.Appearance[8].Opacity}',` +
-                `'${player.customCharacter.Appearance[9].Value}',` +
-                `'${player.customCharacter.Appearance[9].Opacity}',` +
-                `'${player.customCharacter.Appearance[10].Value}',` +
-                `'${player.customCharacter.Appearance[10].Opacity}',` +
-                `'${player.customCharacter.Hair.Hair}',` +
-                `'${player.customCharacter.Hair.Color}',` +
-                `'${player.customCharacter.Hair.HighlightColor}',` +
-                `'${player.customCharacter.EyebrowColor}',` +
-                `'${player.customCharacter.BeardColor}',` +
-                `'${player.customCharacter.EyeColor}',` +
-                `'${player.customCharacter.BlushColor}',` +
-                `'${player.customCharacter.LipstickColor}',` +
-                `'${player.customCharacter.ChestHairColor}'` +
-            ');'
-    )
-
-    // fs.writeFile(`${saveDirectory}/${this.name}.json`, JSON.stringify(this.customCharacter, undefined, 4), (err) => {
-    //     if (err) console.log(`Couldn't save ${this.name}'s character. Reason: ${err.message}`);
-    // });
+    const playerCustomization = new PlayerCustomization()
+    playerCustomization.player_id = player.id_sql
+    playerCustomization.gender = player.customCharacter.Gender
+    playerCustomization.parents_father = player.customCharacter.Parents.Father
+    playerCustomization.parents_mother = player.customCharacter.Parents.Mother
+    playerCustomization.parents_similarity = player.customCharacter.Parents.Similarity
+    playerCustomization.parents_skin_similarity = player.customCharacter.Parents.SkinSimilarity
+    playerCustomization.features_01 = player.customCharacter.Features[0]
+    playerCustomization.features_02 = player.customCharacter.Features[1]
+    playerCustomization.features_03 = player.customCharacter.Features[2]
+    playerCustomization.features_04 = player.customCharacter.Features[3]
+    playerCustomization.features_05 = player.customCharacter.Features[4]
+    playerCustomization.features_06 = player.customCharacter.Features[5]
+    playerCustomization.features_07 = player.customCharacter.Features[6]
+    playerCustomization.features_08 = player.customCharacter.Features[7]
+    playerCustomization.features_09 = player.customCharacter.Features[8]
+    playerCustomization.features_10 = player.customCharacter.Features[9]
+    playerCustomization.features_11 = player.customCharacter.Features[10]
+    playerCustomization.features_12 = player.customCharacter.Features[11]
+    playerCustomization.features_13 = player.customCharacter.Features[12]
+    playerCustomization.features_14 = player.customCharacter.Features[13]
+    playerCustomization.features_15 = player.customCharacter.Features[14]
+    playerCustomization.features_16 = player.customCharacter.Features[15]
+    playerCustomization.features_17 = player.customCharacter.Features[16]
+    playerCustomization.features_18 = player.customCharacter.Features[17]
+    playerCustomization.features_19 = player.customCharacter.Features[18]
+    playerCustomization.features_20 = player.customCharacter.Features[19]
+    playerCustomization.appearance_01_value = player.customCharacter.Appearance[0].Value
+    playerCustomization.appearance_01_opacity = player.customCharacter.Appearance[0].Opacity
+    playerCustomization.appearance_02_value = player.customCharacter.Appearance[1].Value
+    playerCustomization.appearance_02_opacity = player.customCharacter.Appearance[1].Opacity
+    playerCustomization.appearance_03_value = player.customCharacter.Appearance[2].Value
+    playerCustomization.appearance_03_opacity = player.customCharacter.Appearance[2].Opacity
+    playerCustomization.appearance_04_value = player.customCharacter.Appearance[3].Value
+    playerCustomization.appearance_04_opacity = player.customCharacter.Appearance[3].Opacity
+    playerCustomization.appearance_05_value = player.customCharacter.Appearance[4].Value
+    playerCustomization.appearance_05_opacity = player.customCharacter.Appearance[4].Opacity
+    playerCustomization.appearance_06_value = player.customCharacter.Appearance[5].Value
+    playerCustomization.appearance_06_opacity = player.customCharacter.Appearance[5].Opacity
+    playerCustomization.appearance_07_value = player.customCharacter.Appearance[6].Value
+    playerCustomization.appearance_07_opacity = player.customCharacter.Appearance[6].Opacity
+    playerCustomization.appearance_08_value = player.customCharacter.Appearance[7].Value
+    playerCustomization.appearance_08_opacity = player.customCharacter.Appearance[7].Opacity
+    playerCustomization.appearance_09_value = player.customCharacter.Appearance[8].Value
+    playerCustomization.appearance_09_opacity = player.customCharacter.Appearance[8].Opacity
+    playerCustomization.appearance_10_value = player.customCharacter.Appearance[9].Value
+    playerCustomization.appearance_10_opacity = player.customCharacter.Appearance[9].Opacity
+    playerCustomization.appearance_11_value = player.customCharacter.Appearance[10].Value
+    playerCustomization.appearance_11_opacity = player.customCharacter.Appearance[10].Opacity
+    playerCustomization.hair_value = player.customCharacter.Hair.Hair
+    playerCustomization.hair_color = player.customCharacter.Hair.Color
+    playerCustomization.hair_highlight_color = player.customCharacter.Hair.HighlightColor
+    playerCustomization.eyebrow_color = player.customCharacter.EyebrowColor
+    playerCustomization.beard_color = player.customCharacter.BeardColor
+    playerCustomization.eye_color = player.customCharacter.EyeColor
+    playerCustomization.blush_color = player.customCharacter.BlushColor
+    playerCustomization.lipstick_color = player.customCharacter.LipstickColor
+    playerCustomization.chest_hair_color = player.customCharacter.ChestHairColor
+    await Database.savePlayerCustomization(playerCustomization)
   }
 
   player.sendToCreator = function (): void {

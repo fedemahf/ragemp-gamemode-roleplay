@@ -6,10 +6,15 @@
         "suppressImplicitAnyIndexErrors": true,
         "removeComments": true,
         "preserveConstEnums": true,
-        "lib": ["esnext", "dom"],
-        "sourceMap": false,
+        "lib": ["esnext", "dom", "es5", "es6"],
         "resolveJsonModule": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "target": "es5",
+        "moduleResolution": "node",
+        "outDir": "./build",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "sourceMap": true
     },
     "include": [
         "**/*"

@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+
 import ChatMisc from './Chat/ChatMisc'
 import Logger from './Options/sLogger'
 import PedHash = require('./Player/PedHash')
