@@ -12,17 +12,23 @@ class Database {
     this.connect()
   }
 
-  public connect (): void {
+  public async connect (): Promise<void> {
     Logger.info(`Trying to connect to database '${process.env.MYSQL_DATABASE}' as '${process.env.MYSQL_USER}' at '${process.env.MYSQL_HOST}'...`)
 
     AppDataSource.initialize().then(async () => {
       Logger.info('Connected to the database successfully.')
-      await loadVehicles()
-    }).catch((error: any) => {
+
+      try {
+        await loadVehicles()
+      } catch (error) {
+        Logger.error('Error on loading server data!')
+        console.error(error)
+      }
+    }).catch(error => {
       Logger.error("The server can't connect to the database!")
-      Logger.error(error)
+      console.error(error)
       Logger.error('Waiting 10 seconds before trying again...')
-      setTimeout(this.connect, 10000)
+      setTimeout(() => this.connect(), 10000)
     })
   }
 
