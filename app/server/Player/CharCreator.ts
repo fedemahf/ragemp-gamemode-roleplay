@@ -1,9 +1,7 @@
 /// <reference path="../index.d.ts" />
 
-// import * as fs from 'fs';
 import Database from '../Database'
 import { PlayerCustomization } from '../Database/entity/PlayerCustomization'
-// import DB from '../Options/sDB'
 
 // const saveDirectory = "CustomCharacters";
 const freemodeCharacters = [mp.joaat('mp_m_freemode_01'), mp.joaat('mp_f_freemode_01')]

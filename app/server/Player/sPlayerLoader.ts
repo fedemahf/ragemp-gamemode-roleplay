@@ -1,7 +1,5 @@
 /// <reference path="../index.d.ts" />
 
-// import DB from '../Options/sDB';
-// import Logger from '../Options/sLogger';
 import PedHash = require('./PedHash')
 
 export default class PlayerLoader {

@@ -3,7 +3,6 @@
 import Logger from '../Options/sLogger'
 import vehicleList from './VehicleList'
 import ChatMisc from './../Chat/ChatMisc'
-// import DB from '../Options/sDB'
 import Database from '../Database'
 import { Vehicle as DatabaseVehicle } from '../Database/entity/Vehicle'
 

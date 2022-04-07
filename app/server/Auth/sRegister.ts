@@ -1,6 +1,5 @@
 import Auth from './sAuth'
 import Browser from '../Options/sBrowser'
-// import PlayerSingletone from '../Player/sPlayerSingletone'
 import Database from '../Database'
 import Logger from '../Options/sLogger'
 

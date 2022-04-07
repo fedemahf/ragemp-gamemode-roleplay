@@ -2,7 +2,6 @@
 
 import Database from '../Database'
 import { PlayerClothes as DatabasePlayerClothes } from '../Database/entity/PlayerClothes'
-// import DB from '../Options/sDB'
 
 mp.events.add('setClothes', (player: PlayerMp, componentId: number, drawable: number, texture: number) => {
   player.setClothes(componentId, drawable, texture, 2)

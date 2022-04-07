@@ -1,7 +1,4 @@
 import * as crypto from 'crypto'
-// import Misc from '../Options/sMisc'
-// import Browser from '../Options/sBrowser'
-// import Logger from '../Options/sLogger'
 
 export default class Auth {
   private readonly hashCharList: string = ''
