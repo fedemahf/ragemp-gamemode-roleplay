@@ -2,7 +2,7 @@
 Roleplay gamemode for RAGE Multiplayer (GTA:V) using TypeScript. Based on [MarkCavalli's RAGE server start template](https://github.com/MarkCavalli/rage-server-start-template).
 
 ## Features
-- MySQL database. Automatic database installation after first server start. Improved SQL security from the original proyect to avoid SQL injection.
+- MySQL database. The original server-side database module was replaced using TypeORM.
 - Login and register system. Passwords are hashed using PBKDF2 with SHA-256. Different tables for users (`user` table) and characters (`player` table).
 - [Kar's NativeUI](https://github.com/karscopsandrobbers/RAGEMP-NativeUI) support on the client-side.
 
