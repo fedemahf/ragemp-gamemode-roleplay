@@ -35,7 +35,3 @@ interface ClothesInfo {
 }
 
 type PropsInfo = ClothesInfo
-
-interface Vehicle extends VehicleMp {
-  id_sql?: number
-}

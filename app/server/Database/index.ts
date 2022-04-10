@@ -115,7 +115,7 @@ class Database {
     await AppDataSource.manager.save(player)
   }
 
-  public async createVehicle (model: number, player_id: number, pos_x: number, pos_y: number, pos_z: number, pos_rz: number, dimension: number): Promise<number> {
+  public async createVehicle (model: number, player_id: number, pos_x: number, pos_y: number, pos_z: number, pos_rz: number, dimension: number): Promise<Vehicle> {
     const vehicle = new Vehicle()
     vehicle.model = model
     vehicle.player_id = player_id
@@ -125,8 +125,7 @@ class Database {
     vehicle.pos_rz = pos_rz
     vehicle.dimension = dimension
     await AppDataSource.manager.save(vehicle)
-
-    return vehicle.id
+    return vehicle
   }
 
   public async updateVehiclePosition (id: number, x: number, y: number, z: number, rz: number): Promise<boolean> {
