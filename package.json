@@ -13,10 +13,10 @@
     "winston": "^3.2.1"
   },
   "scripts": {
-    "build-server": "npm run build --prefix ./app/server",
-    "build-client": "npm run build --prefix ./app/client",
-    "build-cef": "npm run build --prefix ./app/cef",
-    "build": "npm run build --prefix ./app/server && npm run build --prefix ./app/client && npm run build --prefix ./app/cef",
+    "build-server": "./build server",
+    "build-client": "./build client",
+    "build-cef": "./build cef",
+    "build": "./build server && ./build client && ./build cef",
     "lint-server": "npm run lint --prefix ./app/server",
     "lint-client": "npm run lint --prefix ./app/client",
     "lint-cef": "npm run lint --prefix ./app/cef",

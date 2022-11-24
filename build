@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# # use this for node v18
+# export NODE_OPTIONS=--openssl-legacy-provider
+
+if [ "$#" -eq 1 ]; then
+  case "${1,,}" in
+    server|client|cef) npm run build --prefix "./app/${1,,}" ;;
+    *) echo "Unknown bash argument: $1. Valid arguments are: server, client, cef." ;;
+  esac
+else
+  ./build.sh server && ./build.sh client && ./build.sh cef
+fi
