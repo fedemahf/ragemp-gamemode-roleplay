@@ -9,5 +9,5 @@ if [ "$#" -eq 1 ]; then
     *) echo "Unknown bash argument: $1. Valid arguments are: server, client, cef." ;;
   esac
 else
-  ./build.sh server && ./build.sh client && ./build.sh cef
+  ./build server && ./build client && ./build cef
 fi
